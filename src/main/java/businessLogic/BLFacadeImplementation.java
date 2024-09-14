@@ -29,8 +29,10 @@ import exceptions.RideAlreadyExistException;
 public class BLFacadeImplementation implements BLFacade {
 	DataAccess dbManager;
 
+	Logger logger = Logger.getLogger(LoggingExample.class.getSimpleName());
+
 	public BLFacadeImplementation() {
-		System.out.println("Creating BLFacadeImplementation instance");
+		logger.println("Creating BLFacadeImplementation instance");
 
 		dbManager = new DataAccess();
 
