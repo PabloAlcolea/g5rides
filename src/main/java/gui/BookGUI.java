@@ -27,21 +27,23 @@ public class BookGUI extends JFrame {
 	private JComboBox<String> jComboBoxDestination = new JComboBox<String>();
 	DefaultComboBoxModel<String> destinationCities = new DefaultComboBoxModel<String>();
 
+	String etiquetas = "Etiquetas";
+
 	private JLabel jLabelOrigin = new JLabel(
-			ResourceBundle.getBundle("Etiquetas").getString("CreateRideGUI.LeavingFrom"));
+			ResourceBundle.getBundle(etiquetas).getString("CreateRideGUI.LeavingFrom"));
 	private JLabel jLabelDestination = new JLabel(
-			ResourceBundle.getBundle("Etiquetas").getString("CreateRideGUI.GoingTo"));
+			ResourceBundle.getBundle(etiquetas).getString("CreateRideGUI.GoingTo"));
 	private final JLabel jLabelEventDate = new JLabel(
-			ResourceBundle.getBundle("Etiquetas").getString("CreateRideGUI.RideDate"));
+			ResourceBundle.getBundle(etiquetas).getString("CreateRideGUI.RideDate"));
 	private final JLabel jLabelEvents = new JLabel(
-			ResourceBundle.getBundle("Etiquetas").getString("CreateRideGUI.Rides"));
+			ResourceBundle.getBundle(etiquetas).getString("CreateRideGUI.Rides"));
 	private final JLabel lblEmaitza = new JLabel();
-	private final JLabel lblDesk = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("DeskontuaGUI.Izena"));
+	private final JLabel lblDesk = new JLabel(ResourceBundle.getBundle(etiquetas).getString("DeskontuaGUI.Izena"));
 	private JTextArea lbldekera = new JTextArea();
 	private final JTextField txtDesk = new JTextField();
 
-	private JButton jButtonBook = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Book"));
-	private JButton jButtonClose = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Close"));
+	private JButton jButtonBook = new JButton(ResourceBundle.getBundle(etiquetas).getString("Book"));
+	private JButton jButtonClose = new JButton(ResourceBundle.getBundle(etiquetas).getString("Close"));
 
 	// Code for JCalendar
 	private JCalendar jCalendar1 = new JCalendar();
@@ -56,13 +58,13 @@ public class BookGUI extends JFrame {
 	private DefaultTableModel tableModelRides;
 
 	private String[] columnNamesRides = new String[] {
-			ResourceBundle.getBundle("Etiquetas").getString("FindRidesGUI.Driver"),
-			ResourceBundle.getBundle("Etiquetas").getString("FindRidesGUI.NPlaces"),
-			ResourceBundle.getBundle("Etiquetas").getString("FindRidesGUI.Price"),
-			ResourceBundle.getBundle("Etiquetas").getString("Balorazioa") };
+			ResourceBundle.getBundle(etiquetas).getString("FindRidesGUI.Driver"),
+			ResourceBundle.getBundle(etiquetas).getString("FindRidesGUI.NPlaces"),
+			ResourceBundle.getBundle(etiquetas).getString("FindRidesGUI.Price"),
+			ResourceBundle.getBundle(etiquetas).getString("Balorazioa") };
 
 	private final JLabel lblEserlekuak = new JLabel(
-			ResourceBundle.getBundle("Etiquetas").getString("FindRidesGUI.NPlaces"));
+			ResourceBundle.getBundle(etiquetas).getString("FindRidesGUI.NPlaces"));
 	private JComboBox<Integer> comboBoxSeats = new JComboBox<Integer>();
 	private final JLabel jLabelSaldoa = new JLabel();
 
@@ -86,7 +88,7 @@ public class BookGUI extends JFrame {
 
 		this.getContentPane().setLayout(null);
 		this.setSize(new Dimension(700, 500));
-		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("TravelerGUI.BookRides"));
+		this.setTitle(ResourceBundle.getBundle(etiquetas).getString("TravelerGUI.BookRides"));
 
 		jLabelEventDate.setBounds(new Rectangle(457, 6, 140, 25));
 		jLabelEvents.setBounds(285, 223, 346, 16);
@@ -164,7 +166,7 @@ public class BookGUI extends JFrame {
 					try {
 						seatsRequested = (int) comboBoxSeats.getSelectedItem();
 					} catch (NumberFormatException ex) {
-						lblEmaitza.setText(ResourceBundle.getBundle("Etiquetas").getString("BookGUI.EserlekuError"));
+						lblEmaitza.setText(ResourceBundle.getBundle(etiquetas).getString("BookGUI.EserlekuError"));
 						lblEmaitza.setForeground(Color.RED);
 						return;
 					}
@@ -172,7 +174,7 @@ public class BookGUI extends JFrame {
 					double ridePriceDesk = (selectedRide.getPrice() - desk) * seatsRequested;
 					double availableBalance = appFacadeInterface.getActualMoney(username);
 					if (availableBalance < ridePriceDesk) {
-						lblEmaitza.setText(ResourceBundle.getBundle("Etiquetas").getString("BookGUI.PriceError"));
+						lblEmaitza.setText(ResourceBundle.getBundle(etiquetas).getString("BookGUI.PriceError"));
 						lblEmaitza.setForeground(Color.RED);
 						return;
 					}
@@ -182,11 +184,11 @@ public class BookGUI extends JFrame {
 						Traveler traveler = appFacadeInterface.getTraveler(username);
 						appFacadeInterface.addMovement(traveler, "BookFreeze", ridePriceDesk);
 						double newBalance = appFacadeInterface.getActualMoney(username);
-						jLabelSaldoa.setText(ResourceBundle.getBundle("Etiquetas").getString("MoneyGUI.Erabilgarri")
+						jLabelSaldoa.setText(ResourceBundle.getBundle(etiquetas).getString("MoneyGUI.Erabilgarri")
 								+ newBalance + "\u20AC");
 						int availableSeats = selectedRide.getnPlaces();
 						tableModelRides.setValueAt(availableSeats, selectedRow, 1);
-						lblEmaitza.setText(ResourceBundle.getBundle("Etiquetas").getString("BookGUI.Booked"));
+						lblEmaitza.setText(ResourceBundle.getBundle(etiquetas).getString("BookGUI.Booked"));
 						lblEmaitza.setForeground(Color.BLACK);
 						desk = 0;
 						txtDesk.setText("");
@@ -199,11 +201,11 @@ public class BookGUI extends JFrame {
 						if (selectedRide.getnPlaces() <= 0)
 							jButtonBook.setEnabled(false);
 					} else {
-						lblEmaitza.setText(ResourceBundle.getBundle("Etiquetas").getString("BookGUI.BookingError"));
+						lblEmaitza.setText(ResourceBundle.getBundle(etiquetas).getString("BookGUI.BookingError"));
 						lblEmaitza.setForeground(Color.RED);
 					}
 				} else {
-					lblEmaitza.setText(ResourceBundle.getBundle("Etiquetas").getString("BookGUI.NoRide"));
+					lblEmaitza.setText(ResourceBundle.getBundle(etiquetas).getString("BookGUI.NoRide"));
 					lblEmaitza.setForeground(Color.RED);
 				}
 			}
@@ -259,10 +261,10 @@ public class BookGUI extends JFrame {
 								(String) jComboBoxDestination.getSelectedItem(), UtilDate.trim(jCalendar1.getDate()));
 
 						if (rides.isEmpty())
-							jLabelEvents.setText(ResourceBundle.getBundle("Etiquetas").getString("FindRidesGUI.NoRides")
+							jLabelEvents.setText(ResourceBundle.getBundle(etiquetas).getString("FindRidesGUI.NoRides")
 									+ ": " + dateformat1.format(calendarAct.getTime()));
 						else
-							jLabelEvents.setText(ResourceBundle.getBundle("Etiquetas").getString("FindRidesGUI.Rides")
+							jLabelEvents.setText(ResourceBundle.getBundle(etiquetas).getString("FindRidesGUI.Rides")
 									+ ": " + dateformat1.format(calendarAct.getTime()));
 						for (domain.Ride ride : rides) {
 							Vector<Object> row = new Vector<Object>();
@@ -370,7 +372,7 @@ public class BookGUI extends JFrame {
 		getContentPane().add(comboBoxSeats);
 		double diruKop = appFacadeInterface.getActualMoney(username);
 		jLabelSaldoa
-				.setText(ResourceBundle.getBundle("Etiquetas").getString("MoneyGUI.Erabilgarri") + diruKop + "\u20AC");
+				.setText(ResourceBundle.getBundle(etiquetas).getString("MoneyGUI.Erabilgarri") + diruKop + "\u20AC");
 		jLabelSaldoa.setHorizontalAlignment(SwingConstants.LEFT);
 		jLabelSaldoa.setBounds(10, 177, 265, 20);
 
@@ -391,7 +393,7 @@ public class BookGUI extends JFrame {
 		lbldekera.setWrapStyleWord(true);
 		getContentPane().add(lbldekera);
 
-		JButton jButtonDesk = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DeskontuaGUI.Aplikatu"));
+		JButton jButtonDesk = new JButton(ResourceBundle.getBundle(etiquetas).getString("DeskontuaGUI.Aplikatu"));
 		jButtonDesk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int pos = tableRides.getSelectedRow();
@@ -400,19 +402,19 @@ public class BookGUI extends JFrame {
 						Discount dis = appFacadeInterface.getDiscount(txtDesk.getText());
 						if (dis != null && dis.isActive()) {
 							lbldekera.setText(
-									ResourceBundle.getBundle("Etiquetas").getString("DeskontuaGUI.AplikatuDa"));
+									ResourceBundle.getBundle(etiquetas).getString("DeskontuaGUI.AplikatuDa"));
 							double deskontua = dis.getPortzentaia();
 							Ride selectedRide = (Ride) tableModelRides.getValueAt(pos, 4);
 							desk = ((selectedRide.getPrice()) * deskontua);
 
 							tableModelRides.setValueAt(selectedRide.getPrice() - desk, pos, 2);
 						} else {
-							lbldekera.setText(ResourceBundle.getBundle("Etiquetas").getString("DeskontuaGUI.Error"));
+							lbldekera.setText(ResourceBundle.getBundle(etiquetas).getString("DeskontuaGUI.Error"));
 						}
 
 					}
 				} else {
-					lbldekera.setText(ResourceBundle.getBundle("Etiquetas").getString("BookGUI.NoRide"));
+					lbldekera.setText(ResourceBundle.getBundle(etiquetas).getString("BookGUI.NoRide"));
 				}
 
 			}
