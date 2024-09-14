@@ -26,7 +26,7 @@ public class Complaint implements Serializable {
 	@ManyToOne
 	private Booking booking;
 	private String deskripzioa;
-	static final Boolean aurkeztua;
+	static final Boolean AURKEZTUA;
 	public String egoera;
 
 	public Complaint(String nor, String nori, Date noiz, Booking book, String deskripzioa, boolean aurkeztua) {
