@@ -1,14 +1,13 @@
 package businessLogic;
 
 import java.util.Date;
-
 import java.util.List;
+import javax.swing.JFrame;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE; // Importación estática
 
-//import domain.Booking;
 import domain.Ride;
 import domain.Traveler;
 import domain.User;
-//import domain.Admin;
 import domain.Alert;
 import domain.Booking;
 import domain.Car;
@@ -28,157 +27,120 @@ import javax.jws.WebService;
 @WebService
 public interface BLFacade {
 
-	/**
-	 * This method returns all the cities where rides depart
-	 * 
-	 * @return collection of cities
-	 */
-	@WebMethod
-	public List<String> getDepartCities();
+    // Métodos de la lógica de negocio...
 
-	/**
-	 * This method returns all the arrival destinations, from all rides that depart
-	 * from a given city
-	 * 
-	 * @param from the depart location of a ride
-	 * @return all the arrival destinations
-	 */
-	@WebMethod
-	public List<String> getDestinationCities(String from);
+    public static void main(String[] args) {
+        // Ejemplo de cómo podrías usar JFrame y DISPOSE_ON_CLOSE
+        JFrame frame = new JFrame("JFrame");
+        frame.setSize(400, 300);
+        
+        // Configura la operación de cierre para que al cerrar la ventana, se liberen los recursos
+        frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+        frame.setVisible(true);
+    }
 
-	/**
-	 * This method creates a ride for a driver
-	 * 
-	 * @param from    the origin location of a ride
-	 * @param to      the destination location of a ride
-	 * @param date    the date of the ride
-	 * @param nPlaces available seats
-	 * @param kotxe
-	 * @param driver  to which ride is added
-	 * 
-	 * @return the created ride, or null, or an exception
-	 * @throws RideMustBeLaterThanTodayException if the ride date is before today
-	 * @throws RideAlreadyExistException         if the same ride already exists for
-	 *                                           the driver
-	 */
-	@WebMethod
-	public Ride createRide(String from, String to, Date date, int nPlaces, float price, String driverName)
-			throws RideMustBeLaterThanTodayException, RideAlreadyExistException;
+    // Los demás métodos de la lógica de negocio...
+    
+    @WebMethod
+    public List<String> getDepartCities();
 
-	/**
-	 * This method retrieves the rides from two locations on a given date
-	 * 
-	 * @param from the origin location of a ride
-	 * @param to   the destination location of a ride
-	 * @param date the date of the ride
-	 * @return collection of rides
-	 */
-	@WebMethod
-	public List<Ride> getRides(String from, String to, Date date);
+    @WebMethod
+    public List<String> getDestinationCities(String from);
 
-	/**
-	 * This method retrieves from the database the dates a month for which there are
-	 * events
-	 * 
-	 * @param from the origin location of a ride
-	 * @param to   the destination location of a ride
-	 * @param date of the month for which days with rides want to be retrieved
-	 * @return collection of rides
-	 */
-	@WebMethod
-	public List<Date> getThisMonthDatesWithRides(String from, String to, Date date);
+    @WebMethod
+    public Ride createRide(String from, String to, Date date, int nPlaces, float price, String driverName)
+            throws RideMustBeLaterThanTodayException, RideAlreadyExistException;
 
-	/**
-	 * This method calls the data access to initialize the database with some events
-	 * and questions. It is invoked only when the option "initialize" is declared in
-	 * the tag dataBaseOpenMode of resources/config.xml file
-	 */
-	@WebMethod
-	public void initializeBD();
+    @WebMethod
+    public List<Ride> getRides(String from, String to, Date date);
 
-	public User getUser(String erab);
+    @WebMethod
+    public List<Date> getThisMonthDatesWithRides(String from, String to, Date date);
 
-	public double getActualMoney(String erab);
+    @WebMethod
+    public void initializeBD();
 
-	public boolean isRegistered(String erab, String passwd);
+    public User getUser(String erab);
 
-	public Driver getDriver(String erab);
+    public double getActualMoney(String erab);
 
-	public Traveler getTraveler(String erab);
+    public boolean isRegistered(String erab, String passwd);
 
-	//public Admin getAdmin(String erab);
+    public Driver getDriver(String erab);
 
-	public String getMotaByUsername(String erab);
+    public Traveler getTraveler(String erab);
 
-	public boolean addDriver(String username, String password);
+    public String getMotaByUsername(String erab);
 
-	public boolean addTraveler(String username, String password);
+    public boolean addDriver(String username, String password);
 
-	public boolean gauzatuEragiketa(String username, double amount, boolean b);
+    public boolean addTraveler(String username, String password);
 
-	public boolean bookRide(String username, Ride ride, int seats, double desk);
+    public boolean gauzatuEragiketa(String username, double amount, boolean b);
 
-	public List<Movement> getAllMovements(User user);
+    public boolean bookRide(String username, Ride ride, int seats, double desk);
 
-	public void addMovement(User user, String eragiketa, double amount);
+    public List<Movement> getAllMovements(User user);
 
-	public List<Booking> getBookedRides(String username);
+    public void addMovement(User user, String eragiketa, double amount);
 
-	public void updateTraveler(Traveler traveler);
+    public List<Booking> getBookedRides(String username);
 
-	public void updateDriver(Driver driver);
+    public void updateTraveler(Traveler traveler);
 
-	public void updateUser(User user);
+    public void updateDriver(Driver driver);
 
-	public List<Booking> getPastBookedRides(String username);
+    public void updateUser(User user);
 
-	public void updateBooking(Booking booking);
+    public List<Booking> getPastBookedRides(String username);
 
-	public List<Booking> getBookingFromDriver(String username);
+    public void updateBooking(Booking booking);
 
-	public List<Ride> getRidesByDriver(String username);
+    public List<Booking> getBookingFromDriver(String username);
 
-	public void cancelRide(Ride ride);
+    public List<Ride> getRidesByDriver(String username);
 
-	public boolean addCar(String username, Car kotxe);
+    public void cancelRide(Ride ride);
 
-	public boolean isAdded(String username, String matr);
+    public boolean addCar(String username, Car kotxe);
 
-	public Car getKotxeByMatrikula(String matr);
+    public boolean isAdded(String username, String matr);
 
-	public void deleteCar(Car car);
+    public Car getKotxeByMatrikula(String matr);
 
-	public boolean erreklamazioaBidali(String username1, String username2, Date gaur, Booking book, String textua,
-			boolean aurk);
+    public void deleteCar(Car car);
 
-	public void updateComplaint(Complaint erreklamazioa);
+    public boolean erreklamazioaBidali(String username1, String username2, Date gaur, Booking book, String textua,
+            boolean aurk);
 
-	public void createDiscount(Discount di);
+    public void updateComplaint(Complaint erreklamazioa);
 
-	public List<Discount> getAllDiscounts();
+    public void createDiscount(Discount di);
 
-	public void deleteDiscount(Discount dis);
+    public List<Discount> getAllDiscounts();
 
-	public void updateDiscount(Discount dis);
+    public void deleteDiscount(Discount dis);
 
-	public Discount getDiscount(String desk);
+    public void updateDiscount(Discount dis);
 
-	public List<User> getUserList();
+    public Discount getDiscount(String desk);
 
-	public void deleteUser(User us);
+    public List<User> getUserList();
 
-	public List<Alert> getAlertsByUsername(String username);
+    public void deleteUser(User us);
 
-	public Alert getAlert(int alertNumber);
+    public List<Alert> getAlertsByUsername(String username);
 
-	public void updateAlert(Alert alert);
+    public Alert getAlert(int alertNumber);
 
-	public boolean updateAlertaAurkituak(String username);
+    public void updateAlert(Alert alert);
 
-	public boolean createAlert(Alert newAlert);
+    public boolean updateAlertaAurkituak(String username);
 
-	public boolean deleteAlert(int alertNumber);
+    public boolean createAlert(Alert newAlert);
 
-	public Complaint getComplaintsByBook(Booking bo);
+    public boolean deleteAlert(int alertNumber);
 
+    public Complaint getComplaintsByBook(Booking bo);
 }
