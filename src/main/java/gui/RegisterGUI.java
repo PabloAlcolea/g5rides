@@ -101,7 +101,7 @@ public class RegisterGUI extends JFrame {
         });
     }
 
-    private void jbuttonclose_actionperformed(ActionEvent e) {
+    private void jButtonCloseActionPerformed(ActionEvent e) {
         this.setVisible(false);
     }
 }
