@@ -22,13 +22,11 @@ import exceptions.RideAlreadyExistException;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
-import java.io.Serializable;
-
 /**
  * Interface that specifies the business logic.
  */
 @WebService
-public interface BLFacade implements Serializable {
+public interface BLFacade {
 
 	/**
 	 * This method returns all the cities where rides depart
