@@ -21,7 +21,7 @@ public class Driver extends User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@XmlIDREF
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<Car> cars = new Vector<Car>();;
+	private List<Car> cars = new ArrayList<Car>();;
 	@XmlIDREF
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Ride> createdRides = new Vector<Ride>();
