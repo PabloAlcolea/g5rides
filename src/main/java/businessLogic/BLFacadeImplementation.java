@@ -35,7 +35,7 @@ public class BLFacadeImplementation implements BLFacade {
 
 		dbManager = new DataAccess();
 
-		// dbManager.close();
+		
 
 	}
 
