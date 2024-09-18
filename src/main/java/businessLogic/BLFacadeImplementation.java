@@ -170,13 +170,7 @@ public class BLFacadeImplementation implements BLFacade {
 		return t;
 	}
 
-	/*@Override
-	public Admin getAdmin(String erab) {
-		dbManager.open();
-		Admin a = dbManager.getAdmin(erab);
-		dbManager.close();
-		return a;
-	}*/
+	
 
 	@Override
 	public String getMotaByUsername(String erab) {
