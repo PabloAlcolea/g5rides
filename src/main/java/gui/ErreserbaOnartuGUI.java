@@ -41,7 +41,7 @@ public class ErreserbaOnartuGUI extends JFrame {
 
 		// Lista
 		taula = new JTable();
-		List<Booking> TravelsList = appFacadeInterface.getBookingFromDriver(username);
+		List<Booking> travelslist = appFacadeInterface.getBookingFromDriver(username);
 		scrollPane = new JScrollPane(taula);
 		getContentPane().add(scrollPane, BorderLayout.NORTH);
 
@@ -60,7 +60,7 @@ public class ErreserbaOnartuGUI extends JFrame {
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
-		if (TravelsList != null) {
+		if (travelslist != null) {
 			for (Booking booking : TravelsList) {
 				String status;
 				switch (booking.getStatus()) {
@@ -109,7 +109,7 @@ public class ErreserbaOnartuGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				int pos = taula.getSelectedRow();
 				if (pos != -1) {
-					Booking booking = TravelsList.get(pos);
+					Booking booking = travelslist.get(pos);
 					if (!booking.getStatus().equals("NotDefined")) {
 						lblErrorea.setForeground(Color.RED);
 						lblErrorea.setText(
@@ -139,7 +139,7 @@ public class ErreserbaOnartuGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				int pos = taula.getSelectedRow();
 				if (pos != -1) {
-					Booking booking = TravelsList.get(pos);
+					Booking booking = travelslist.get(pos);
 
 					if (!booking.getStatus().equals("NotDefined")) {
 						lblErrorea.setForeground(Color.RED);
