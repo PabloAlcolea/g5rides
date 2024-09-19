@@ -26,8 +26,8 @@ public class Complaint implements Serializable {
 	@ManyToOne
 	private Booking booking;
 	private String deskripzioa;
-	static final Boolean AURKEZTUA;
-	public static final String EGOERA;
+	static boolean AURKEZTUA;
+	public static String EGOERA;
 
 	public Complaint(String nor, String nori, Date noiz, Booking book, String deskripzioa, boolean aurkeztua) {
 		super();
@@ -36,8 +36,8 @@ public class Complaint implements Serializable {
 		this.noiz = noiz;
 		this.booking = book;
 		this.deskripzioa = deskripzioa;
-		this.aurkeztua = aurkeztua;
-		this.egoera = "";
+		this.setAurkeztua(aurkeztua);
+		this.setEgoera("");
 	}
 
 	public int getId() {
@@ -89,19 +89,19 @@ public class Complaint implements Serializable {
 	}
 
 	public Boolean getAurkeztua() {
-		return aurkeztua;
+		return AURKEZTUA;
 	}
 
 	public void setAurkeztua(Boolean aurkeztua) {
-		this.aurkeztua = aurkeztua;
+		this.AURKEZTUA = aurkeztua;
 	}
 
 	public String getEgoera() {
-		return egoera;
+		return EGOERA;
 	}
 
 	public void setEgoera(String egoera) {
-		this.egoera = egoera;
+		this.EGOERA = egoera;
 	}
 
 }

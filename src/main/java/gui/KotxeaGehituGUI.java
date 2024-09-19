@@ -66,7 +66,7 @@ public class KotxeaGehituGUI extends JFrame {
 		btnNewButtonGehitu = new JButton(ResourceBundle.getBundle("Etiquetas").getString("KotxeaGUI.Gehitu"));
 		btnNewButtonGehitu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String error = field_Errors();
+				String error = fieldErrors();
 				lblNewLabel.setText("");
 				if (error != null) {
 					lblNewLabel.setText(error);
@@ -131,7 +131,7 @@ public class KotxeaGehituGUI extends JFrame {
 
 	}
 
-	private String field_Errors() {
+	private String fieldErrors() {
 		try {
 			if ((textFieldmatrikula.getText().length() == 0) || (textFieldmodeloa.getText().length() == 0)
 					|| (textFieldeserlekuak.getText().length() == 0))

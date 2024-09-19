@@ -205,8 +205,7 @@ public class DataAccess {
 		TypedQuery<String> query = db.createQuery("SELECT DISTINCT r.to FROM Ride r WHERE r.from=?1 ORDER BY r.to",
 				String.class);
 		query.setParameter(1, from);
-		List<String> arrivingCities = query.getResultList();
-		return arrivingCities;
+		return query.getResultList();
 
 	}
 
@@ -854,33 +853,17 @@ public class DataAccess {
 		try {
 			if (us.getMota().equals("Driver")) {
 				List<Ride> rl = getRidesByDriver(us.getUsername());
-				if (rl != null) {
-					for (Ride ri : rl) {
-						cancelRide(ri);
-					}
-				}
+				deleteRides(rl); // Nueva funcion
+				
 				Driver d = getDriver(us.getUsername());
 				List<Car> cl = d.getCars();
-				if (cl != null) {
-					for (int i = cl.size() - 1; i >= 0; i--) {
-						Car ci = cl.get(i);
-						deleteCar(ci);
-					}
-				}
+				deleteCars(cl); // Nueva funcion
 			} else {
 				List<Booking> lb = getBookedRides(us.getUsername());
-				if (lb != null) {
-					for (Booking li : lb) {
-						li.setStatus("Rejected");
-						li.getRide().setnPlaces(li.getRide().getnPlaces() + li.getSeats());
-					}
-				}
+				deleteBookings(lb); // Nueva funcion
+				
 				List<Alert> la = getAlertsByUsername(us.getUsername());
-				if (la != null) {
-					for (Alert lx : la) {
-						deleteAlert(lx.getAlertNumber());
-					}
-				}
+				deleteAlerts(la); // Nueva funcion
 			}
 			db.getTransaction().begin();
 			us = db.merge(us);
@@ -888,6 +871,48 @@ public class DataAccess {
 			db.getTransaction().commit();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	private void deleteAlerts(List<Alert> la) {
+		if (la == null) {
+			return;
+		} else {
+			for (Alert lx : la) {
+				deleteAlert(lx.getAlertNumber());
+			}
+		}
+	}
+	
+	private void deleteBookings(List<Booking> lb) {
+		if (lb == null) {
+			return;
+		} else {
+			for (Booking li : lb) {
+				li.setStatus("Rejected");
+				li.getRide().setnPlaces(li.getRide().getnPlaces() + li.getSeats());
+			}
+		}
+	}
+	
+	private void deleteCars(List<Car> cl) {
+		if (cl == null) {
+			return;
+		} else {
+			for (int i = cl.size() - 1; i >= 0; i--) {
+				Car ci = cl.get(i);
+				deleteCar(ci);
+			}
+		}
+	}
+	
+	private void deleteRides(List<Ride> rl) {
+		if (c == null) {
+			return;
+		} else {
+			for (Ride ri : rl) {
+				cancelRide(ri);
+			}
 		}
 	}
 

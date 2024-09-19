@@ -70,7 +70,7 @@ public class RegisterGUI extends JFrame {
 
         jButtonClose.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                jButtonClose_actionPerformed(e);
+                actionPerformed(e);
             }
         });
         

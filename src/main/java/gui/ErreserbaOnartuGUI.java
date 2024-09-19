@@ -61,7 +61,7 @@ public class ErreserbaOnartuGUI extends JFrame {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
 		if (travelslist != null) {
-			for (Booking booking : TravelsList) {
+			for (Booking booking : travelslist) {
 				String status;
 				switch (booking.getStatus()) {
 				case "Completed":
