@@ -43,6 +43,7 @@ public class CreateRideBDBlackTest {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Date rideDate=null;;
+		//wrr
 		try {
 			rideDate = sdf.parse("05/10/2026");
 		} catch (ParseException e) {
