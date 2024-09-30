@@ -35,7 +35,7 @@
 			</plugin>
 			
 		</plugins>
-	</build>
+	</build>>
 	<repositories>
 		<repository>
 			<id>objectdb</id>
@@ -54,7 +54,7 @@
 		<sonar.login>c6ee53afd69126da4a363d0d99402faf6a74dc78</sonar.login>
 	</properties>
 
-	<!-- https://mvnrepository.com/artifact/junit/junit -->
+	<!-- https://mvnrepository.com/artifact/junit/junit k -->
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
