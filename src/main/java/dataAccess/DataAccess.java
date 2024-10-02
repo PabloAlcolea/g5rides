@@ -707,6 +707,7 @@ public class DataAccess {
 
 	public boolean addCar(String username, Car kotxe) {
 		try {
+			//E
 			boolean b = isAdded(username, kotxe.getMatrikula());
 			if (!b) {
 				db.getTransaction().begin();
