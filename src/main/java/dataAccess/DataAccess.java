@@ -489,7 +489,7 @@ public class DataAccess {
 						user.setMoney(0);
 					else
 						user.setMoney(currentMoney - amount);
-				}
+				} 
 				db.merge(user);
 				db.getTransaction().commit();
 				return true;
