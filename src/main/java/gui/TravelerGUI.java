@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class TravelerGUI extends JFrame {
-
+	//d
 	private static final long serialVersionUID = 1L;
 
 	private JPanel jContentPane = null;
