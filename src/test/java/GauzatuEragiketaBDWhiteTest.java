@@ -43,7 +43,7 @@ public class GauzatuEragiketaBDWhiteTest {
 
 			// Si continua, el test habra fallado
 			fail();
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			// Si lanza exc., superado
 			assertTrue(true);
 		} finally {
