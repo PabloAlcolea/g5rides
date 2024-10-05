@@ -32,29 +32,31 @@ public class getRidesByDriverBDWhiteTest {
 
 	@Test
 	/* username == null . Para superar el test, el
-	 * metodo debe lanzar una excepcion y no continuar.
+	 * metodo debe comprobar que los rides son null.
 	 */
 	public void test1() {
+		List<Ride> r = new ArrayList<Ride>();
 		try {
 			
 			String username = null;
 			
 			// Invocar al sut
 			sut.open();
-			sut.getRidesByDriver(username);
+			r = sut.getRidesByDriver(username);
 
 			// Si continua, el test habra fallado
-			fail();
+			assertNull(r);
 		} catch (Exception e) {
 			// Si lanza exc., superado
-			assertTrue(true);
+			fail();
 		} finally {
 			sut.close();
 		}
 	}
 
 	@Test
-	/* username no pertenece a la BD. Si lanza una excepción, funciona correctamente. User2 no pertenece a la BD.
+	/* username no pertenece a la BD. Cuando se accede a los rides del "User2", como no pertenece a la  BD, la lista sera vacia ya 
+	 * que no habrá ningún username con "User2.
 	 */
 	public void test2() {
 		List<Ride> result;
@@ -67,7 +69,7 @@ public class getRidesByDriverBDWhiteTest {
 			sut.open();
 			result = sut.getRidesByDriver(username);
 
-			assertFalse(false); // Si devuelve false, superado
+			assertNull(result); // Si result = null, superado.
 
 		} catch (Exception e) {
 			fail(); // Si lanza una excepcion, el test funciona correctamente.
@@ -78,7 +80,8 @@ public class getRidesByDriverBDWhiteTest {
 
 	@Test
 	/* el usuario no ha creado/asociado "createRides". El programa debería funcionar con total normalidad. 
-	 * estaría mal implementado.
+	 * Si una lista vacia de Rides es igual a la lista vacia de los Rides de "User1", 
+	 * el test funcionaria correctamente.
 	 */
 	public void test3() {
 		List<Ride> rides;
@@ -161,8 +164,6 @@ public class getRidesByDriverBDWhiteTest {
 		
 			
 			assertNotNull(rides);
-			System.out.println("1" + rides);
-			System.out.println("2" + aux);
 			assertEquals(rides , aux); // Son iguales, solo que no se detecta.
 
 		} catch (Exception e) {

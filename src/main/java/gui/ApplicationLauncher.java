@@ -9,6 +9,7 @@ import javax.xml.ws.Service;
 
 import configuration.ConfigXML;
 import dataAccess.DataAccess;
+import domain.User;
 import businessLogic.BLFacade;
 import businessLogic.BLFacadeImplementation;
 
@@ -31,7 +32,8 @@ public class ApplicationLauncher {
 
 			if (c.isBusinessLogicLocal()) {
 
-				DataAccess da = new DataAccess();
+				DataAccess da = new DataAccess();				
+				
 				appFacadeInterface = new BLFacadeImplementation(da);
 
 			}

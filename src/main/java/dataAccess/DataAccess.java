@@ -476,6 +476,17 @@ public class DataAccess {
 		}
 	}
 
+	/** 
+	 * Este metodo realiza una operacion sobre el dinero de un usuario del sistema.
+	 * Puede depositar dinero o retirarlo.
+	 * 
+	 * @param username el nombre de usuario.
+	 * @param amount la cantidad de dinero. Un numero real mayor a 0 y menor a la cantidad
+	 * de dinero del usuario en el sistema.
+	 * @param deposit booleano que indica si se deposita el dinero. Si no, quiere decir
+	 * que se retira.
+	 * @return boolean indicando si la operacion ha sido exitosa o no, o excepcion.
+	 */
 	public boolean gauzatuEragiketa(String username, double amount, boolean deposit) {
 		try {
 			db.getTransaction().begin();
