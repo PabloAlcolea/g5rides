@@ -30,38 +30,39 @@ public class GauzatuEragiketaMockWhiteTest {
 
 	// additional operations needed to execute the test
 	static TestDataAccess testDA = new TestDataAccess();
-	
+
 	protected MockedStatic<Persistence> persistenceMock;
 	@Mock
-	protected  EntityManagerFactory entityManagerFactory;
+	protected EntityManagerFactory entityManagerFactory;
 	@Mock
-	protected  EntityManager db;
+	protected EntityManager db;
 	@Mock
-    protected  EntityTransaction  et;
+	protected EntityTransaction et;
 	@Mock
 	TypedQuery<Double> typedQuery;
 	@Mock
 	TypedQuery<Driver> typedQueryDriver;
-	
+
 	@Before
-    public void init() {
-        MockitoAnnotations.openMocks(this);
-        persistenceMock = Mockito.mockStatic(Persistence.class);
+	public void init() {
+		MockitoAnnotations.openMocks(this);
+		persistenceMock = Mockito.mockStatic(Persistence.class);
 		persistenceMock.when(() -> Persistence.createEntityManagerFactory(Mockito.any()))
-        .thenReturn(entityManagerFactory);
-        
-        Mockito.doReturn(db).when(entityManagerFactory).createEntityManager();
+				.thenReturn(entityManagerFactory);
+
+		Mockito.doReturn(db).when(entityManagerFactory).createEntityManager();
 		Mockito.doReturn(et).when(db).getTransaction();
-	    sut=new DataAccess(db);
-    }
-	
+		sut = new DataAccess(db);
+	}
+
 	@After
-    public  void tearDown() {
+	public void tearDown() {
 		persistenceMock.close();
-    }
+	}
 
 	@Test
-	/* sut.gauzatuEragiketa: El nombre de usuario es nulo. Para superar el test, el
+	/*
+	 * sut.gauzatuEragiketa: El nombre de usuario es nulo. Para superar el test, el
 	 * metodo debe lanzar una excepcion y no continuar.
 	 */
 	public void test1() {
@@ -70,8 +71,8 @@ public class GauzatuEragiketaMockWhiteTest {
 			String username = null;
 			double amount = 100; // irrelevante (*)
 			boolean deposit = true; // irrelevante (*)
-			
-			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQuery);		
+
+			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQuery);
 			Mockito.when(typedQuery.getSingleResult()).thenReturn(amount);
 
 			// Invocar al sut
@@ -87,9 +88,10 @@ public class GauzatuEragiketaMockWhiteTest {
 			sut.close();
 		}
 	}
-	
+
 	@Test
-	/* sut.gauzatuEragiketa: El usuario no existe en la BD. Para superar el test, el
+	/*
+	 * sut.gauzatuEragiketa: El usuario no existe en la BD. Para superar el test, el
 	 * la salida debe ser false. El test supone que el usuario con nombre "Name2" no
 	 * existe en la BD.
 	 */
@@ -100,8 +102,8 @@ public class GauzatuEragiketaMockWhiteTest {
 			String username = "Name2";
 			double amount = 100; // irrelevante (*)
 			boolean deposit = true; // irrelevante (*)
-			
-			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQuery);		
+
+			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQuery);
 			Mockito.when(typedQuery.getSingleResult()).thenReturn(amount);
 
 			// Invocar al sut
@@ -116,9 +118,10 @@ public class GauzatuEragiketaMockWhiteTest {
 			sut.close();
 		}
 	}
-	
+
 	@Test
-	/* sut.gauzatuEragiketa: El usuario existe en la base de datos y se hace un
+	/*
+	 * sut.gauzatuEragiketa: El usuario existe en la base de datos y se hace un
 	 * deposito en su cuenta. Para superar el test, la operacion debe completarse
 	 * con exito y quedar reflejada en el estado final de la BD. El test supone que
 	 * no existe un usuario de nombre "Name1" en la base de datos (lo crea y lo
@@ -137,9 +140,10 @@ public class GauzatuEragiketaMockWhiteTest {
 			double finalAmount = initialAmount + depositAmount;
 			boolean deposit = true;
 
+			// Configurar el mock para que devuelva el Driver
 			Driver d = new Driver(username, password);
 			d.setMoney(initialAmount);
-			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQueryDriver);		
+			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQueryDriver);
 			Mockito.when(typedQueryDriver.getSingleResult()).thenReturn(d);
 
 			// Invocar al sut
@@ -153,6 +157,87 @@ public class GauzatuEragiketaMockWhiteTest {
 			fail(); // Si lanza una excepcion, el test falla
 		} finally {
 			sut.close();
+		}
+	}
+
+	@Test
+	/*
+	 * sut.gauzatuEragiketa: El usuario extrae mas dinero del que tiene en la
+	 * cuenta. Para superar el test, el metodo debe devolver True y la cuenta del
+	 * usuario debe quedar a 0. El test supone que no existe un usuario de nombre
+	 * "Name1" en la base de datos (lo crea y lo elimina para testear).
+	 */
+	public void test4() {
+		boolean result;
+		boolean driverCreated = false;
+		String username = "Name1";
+		try {
+			// Definir parametros
+
+			String password = "pass";
+			double initialAmount = 50;
+			double depositAmount = 60;
+			double finalAmount = 0;
+			boolean deposit = false;
+
+			// Configurar el mock para que devuelva el Driver
+			Driver d = new Driver(username, password);
+			d.setMoney(initialAmount);
+			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQueryDriver);
+			Mockito.when(typedQueryDriver.getSingleResult()).thenReturn(d);
+
+			// Invocar al sut
+			sut.open();
+			result = sut.gauzatuEragiketa(username, depositAmount, deposit);
+
+			assertTrue(result); // Debe devolver true
+			assertTrue(d.getMoney() == finalAmount); // Debe actualizarse la BD
+
+		} catch (Exception e) {
+			fail(); // Si lanza una excepcion, el test falla
+		} finally {
+			sut.close();
+		}
+	}
+
+	@Test
+	/*
+	 * sut.gauzatuEragiketa: El usuario extrae menos dinero del que tiene en la
+	 * cuenta. Para superar el test, la operacion debe realizarse con exito y debe
+	 * quedar reflejada en el estado de la BD. El test supone que no existe un
+	 * usuario de nombre "Name1" en la base de datos (lo crea y lo elimina para
+	 * testear).
+	 */
+	public void test5() {
+		boolean result;
+		boolean driverCreated = false;
+		String username = "Name1";
+		try {
+			// Definir parametros
+
+			String password = "pass";
+			double initialAmount = 50;
+			double depositAmount = 40;
+			double finalAmount = initialAmount - depositAmount;
+			boolean deposit = false;
+
+			// Configurar el mock para que devuelva el Driver
+			Driver d = new Driver(username, password);
+			d.setMoney(initialAmount);
+			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQueryDriver);
+			Mockito.when(typedQueryDriver.getSingleResult()).thenReturn(d);
+
+			// Invocar al sut
+			sut.open();
+			result = sut.gauzatuEragiketa(username, depositAmount, deposit);
+
+			assertTrue(result); // Debe devolver true
+			assertTrue(d.getMoney() == finalAmount); // Debe actualizarse la BD
+
+		} catch (Exception e) {
+			fail(); // Si lanza una excepcion, el test falla
+		} finally {
+			sut.close();		
 		}
 	}
 }

@@ -9,6 +9,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.persistence.NoResultException;
+
 import org.junit.Test;
 
 import dataAccess.DataAccess;
@@ -43,9 +45,8 @@ public class GauzatuEragiketaBDWhiteTest {
 
 			// Si continua, el test habra fallado
 			fail();
-		} catch (RuntimeException e) {
-			// Si lanza exc., superado
-			assertTrue(true);
+		} catch (Exception e) {
+		    assertTrue(true);
 		} finally {
 			sut.close();
 		}
@@ -110,7 +111,6 @@ public class GauzatuEragiketaBDWhiteTest {
 			// Invocar al sut
 			sut.open();
 			result = sut.gauzatuEragiketa(username, depositAmount, deposit);
-
 			assertTrue(result); // Debe devolver true
 			testDA.open();
 			Driver d = testDA.getDriver(username);
