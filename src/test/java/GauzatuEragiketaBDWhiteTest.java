@@ -30,9 +30,10 @@ public class GauzatuEragiketaBDWhiteTest {
 
 	@Test
 	/* sut.gauzatuEragiketa: El nombre de usuario es nulo. Para superar el test, el
-	 * metodo debe lanzar una excepcion y no continuar.
+	 * metodo debe lanzar una excepcion y devolver false.
 	 */
 	public void test1() {
+		boolean result;
 		try {
 			// Definir parametros
 			String username = null;
@@ -41,10 +42,9 @@ public class GauzatuEragiketaBDWhiteTest {
 
 			// Invocar al sut
 			sut.open();
-			sut.gauzatuEragiketa(username, amount, deposit);
+			result = sut.gauzatuEragiketa(username, amount, deposit);
 
-			// Si continua, el test habra fallado
-			fail();
+			assertFalse(result);
 		} catch (Exception e) {
 		    assertTrue(true);
 		} finally {
