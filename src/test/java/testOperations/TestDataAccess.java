@@ -11,6 +11,7 @@ import javax.persistence.Persistence;
 import configuration.ConfigXML;
 import domain.Driver;
 import domain.Ride;
+import domain.Traveler;
 
 public class TestDataAccess {
 	protected EntityManager db;
@@ -127,7 +128,7 @@ public class TestDataAccess {
 		} else
 			return null;
 	}
-	
+
 	public boolean addMoneyToDriver(String name, double amount) {
 		System.out.println(">> TestDataAccess: addAmount");
 		Driver d = db.find(Driver.class, name);
@@ -141,7 +142,7 @@ public class TestDataAccess {
 			return false;
 		}
 	}
-	
+
 	public Driver getDriver(String name) {
 		System.out.println(">> TestDataAccess: getDriver");
 		Driver d = db.find(Driver.class, name);
@@ -153,4 +154,41 @@ public class TestDataAccess {
 		}
 	}
 
+	public boolean existTraveler(String name) {
+		System.out.println(">> TestDataAccess: getTraveler");
+		Traveler t = db.find(Traveler.class, name);
+		if (t != null) {
+			System.out.println("traveler exists");
+			return true;
+		} else {
+			System.out.println("traveler doesn't exist");
+			return false;
+		}
+	}
+
+	public Traveler createTraveler(String name, String password) {
+		System.out.println(">> TestDataAccess: createTraveler");
+		Traveler t = null;
+		db.getTransaction().begin();
+		try {
+			t = new Traveler(name, password);
+			db.persist(t);
+			db.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return t;
+	}
+
+	public boolean removeTraveler(String name) {
+		System.out.println(">> TestDataAccess: removeTraveler");
+		Traveler t = db.find(Traveler.class, name);
+		if (t != null) {
+			db.getTransaction().begin();
+			db.remove(t);
+			db.getTransaction().commit();
+			return true;
+		} else
+			return false;
+	}
 }

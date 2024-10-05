@@ -22,13 +22,11 @@ public class CreateRideBDBlackTest {
 
 	 //sut:system under test
 	 static DataAccess sut=new DataAccess();
-	 //ddsa
-	 //AAAmAAAAAAAAAAAAAAsaa
+
 	 //additional operations needed to execute the test 
 	 static TestDataAccess testDA=new TestDataAccess();
-	 //DS
-	 // DSDSDSDSDS
-	@SuppressWarnings("unused")
+
+	 @SuppressWarnings("unused")
 	private Driver driver; 
 
 	@Test
