@@ -2,6 +2,7 @@ package testOperations;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
@@ -81,6 +82,23 @@ public class TestDataAccess {
 	public boolean existDriver(String email) {
 		return db.find(Driver.class, email) != null;
 	}
+	public Driver addRide(Driver d,String from, String to, Date date, int nPlaces, float price) {
+		System.out.println(">> TestDataAccess: addRide");
+		Driver driver;
+		db.getTransaction().begin();
+		try {
+			driver = db.find(Driver.class, d);
+			driver.addRide(from, to, date, nPlaces, price);
+			db.getTransaction().commit();
+			System.out.println("Driver ride created " + driver);
+
+			return driver;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	public Driver addDriverWithRide(String name, String from, String to, Date date, int nPlaces, float price) {
 		System.out.println(">> TestDataAccess: addDriverWithRide");
@@ -152,5 +170,17 @@ public class TestDataAccess {
 			return null;
 		}
 	}
+	public List<Ride> getDriverRides(String name) {
+		System.out.println(">> TestDataAccess: getDriverRides");
+		
+		Driver d = db.find(Driver.class, name);
+		if (d != null) {
+			System.out.println("returned driver " + d.getUsername());
+			return d.getCreatedRides();
+		} else {
+			return null;
+		}
+	}
+
 
 }
