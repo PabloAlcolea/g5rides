@@ -140,7 +140,7 @@ public class getRidesByDriverMockBlackTest {
 			rides = sut.getRidesByDriver(username);
 
 			assertNull(rides);
-			//d
+			
 
 		} catch (Exception e) {
 			fail(); // Si lanza una excepcion, el test falla

@@ -28,8 +28,8 @@ public class DataAccess {
 	private EntityManagerFactory emf;
 	String madrid = "Madrid";
 	ConfigXML c = ConfigXML.getInstance();
-	
-	private String adminPass="admin";
+
+	private String adminPass = "admin";
 
 	public DataAccess() {
 		if (c.isDatabaseInitialized()) {
@@ -56,7 +56,8 @@ public class DataAccess {
 		close();
 
 	}
-	//This constructor is used to mock the DB
+
+	// This constructor is used to mock the DB
 	public DataAccess(EntityManager db) {
 		this.db = db;
 	}
@@ -104,11 +105,11 @@ public class DataAccess {
 			cal.set(2024, Calendar.APRIL, 20);
 			Date date4 = UtilDate.trim(cal.getTime());
 
-			driver1.addRide("Donostia", madrid , date2, 5, 20); //ride1
-			driver1.addRide("Irun", "Donostia", date2, 5, 2); //ride2
-			driver1.addRide(madrid, "Donostia", date3, 5, 5); //ride3
-			driver1.addRide("Barcelona", madrid , date4, 0, 10); //ride4
-			driver2.addRide("Donostia", "Hondarribi", date1, 5, 3); //ride5
+			driver1.addRide("Donostia", madrid, date2, 5, 20); // ride1
+			driver1.addRide("Irun", "Donostia", date2, 5, 2); // ride2
+			driver1.addRide(madrid, "Donostia", date3, 5, 5); // ride3
+			driver1.addRide("Barcelona", madrid, date4, 0, 10); // ride4
+			driver2.addRide("Donostia", "Hondarribi", date1, 5, 3); // ride5
 
 			Ride ride1 = driver1.getCreatedRides().get(0);
 			Ride ride2 = driver1.getCreatedRides().get(1);
@@ -141,7 +142,7 @@ public class DataAccess {
 			Movement m5 = new Movement(traveler1, "BookFreeze", 3);
 			Movement m6 = new Movement(driver1, "Deposit", 15);
 			Movement m7 = new Movement(traveler1, "Deposit", 168);
-			
+
 			db.persist(m6);
 			db.persist(m7);
 			db.persist(m1);
@@ -149,7 +150,7 @@ public class DataAccess {
 			db.persist(m3);
 			db.persist(m4);
 			db.persist(m5);
-			
+
 			traveler1.addBookedRide(book1);
 			traveler1.addBookedRide(book2);
 			traveler2.addBookedRide(book3);
@@ -167,8 +168,8 @@ public class DataAccess {
 			db.persist(c2);
 			db.persist(c3);
 
-			//Admin a1 = new Admin("Jon", "111");
-			//db.persist(a1);
+			// Admin a1 = new Admin("Jon", "111");
+			// db.persist(a1);
 
 			Discount dis = new Discount("Uda24", 0.2, true);
 			db.persist(dis);
@@ -227,7 +228,8 @@ public class DataAccess {
 			throws RideAlreadyExistException, RideMustBeLaterThanTodayException {
 		System.out.println(
 				">> DataAccess: createRide=> from= " + from + " to= " + to + " driver=" + driverName + " date " + date);
-		if (driverName==null) return null;
+		if (driverName == null)
+			return null;
 		try {
 			if (new Date().compareTo(date) > 0) {
 				System.out.println("ppppp");
@@ -252,7 +254,6 @@ public class DataAccess {
 			// TODO Auto-generated catch block
 			return null;
 		}
-		
 
 	}
 
@@ -366,13 +367,15 @@ public class DataAccess {
 		driverQuery.setParameter("passwd", passwd);
 		Long driverCount = driverQuery.getSingleResult();
 
-		/*TypedQuery<Long> adminQuery = db.createQuery(
-				"SELECT COUNT(a) FROM Admin a WHERE a.username = :username AND a.passwd = :passwd", Long.class);
-		adminQuery.setParameter("username", erab);
-		adminQuery.setParameter("passwd", passwd);
-		Long adminCount = adminQuery.getSingleResult();*/
+		/*
+		 * TypedQuery<Long> adminQuery = db.createQuery(
+		 * "SELECT COUNT(a) FROM Admin a WHERE a.username = :username AND a.passwd = :passwd"
+		 * , Long.class); adminQuery.setParameter("username", erab);
+		 * adminQuery.setParameter("passwd", passwd); Long adminCount =
+		 * adminQuery.getSingleResult();
+		 */
 
-		boolean isAdmin=((erab.compareTo("admin")==0) && (passwd.compareTo(adminPass)==0));
+		boolean isAdmin = ((erab.compareTo("admin") == 0) && (passwd.compareTo(adminPass) == 0));
 		return travelerCount > 0 || driverCount > 0 || isAdmin;
 	}
 
@@ -399,16 +402,13 @@ public class DataAccess {
 		}
 	}
 
-	/*public Admin getAdmin(String erab) {
-		TypedQuery<Admin> query = db.createQuery("SELECT a FROM Admin a WHERE t.username = :username", Admin.class);
-		query.setParameter("username", erab);
-		List<Admin> resultList = query.getResultList();
-		if (resultList.isEmpty()) {
-			return null;
-		} else {
-			return resultList.get(0);
-		}
-	}*/
+	/*
+	 * public Admin getAdmin(String erab) { TypedQuery<Admin> query =
+	 * db.createQuery("SELECT a FROM Admin a WHERE t.username = :username",
+	 * Admin.class); query.setParameter("username", erab); List<Admin> resultList =
+	 * query.getResultList(); if (resultList.isEmpty()) { return null; } else {
+	 * return resultList.get(0); } }
+	 */
 
 	public String getMotabyUsername(String erab) {
 		TypedQuery<String> driverQuery = db.createQuery("SELECT d.mota FROM Driver d WHERE d.username = :username",
@@ -421,18 +421,20 @@ public class DataAccess {
 		travelerQuery.setParameter("username", erab);
 		List<String> travelerResultList = travelerQuery.getResultList();
 
-		/*TypedQuery<String> adminQuery = db.createQuery("SELECT a.mota FROM Admin a WHERE a.username = :username",
-				String.class);
-		adminQuery.setParameter("username", erab);
-		List<String> adminResultList = adminQuery.getResultList();*/
+		/*
+		 * TypedQuery<String> adminQuery =
+		 * db.createQuery("SELECT a.mota FROM Admin a WHERE a.username = :username",
+		 * String.class); adminQuery.setParameter("username", erab); List<String>
+		 * adminResultList = adminQuery.getResultList();
+		 */
 
 		if (!driverResultList.isEmpty()) {
 			return driverResultList.get(0);
 		} else if (!travelerResultList.isEmpty()) {
 			return travelerResultList.get(0);
-		} else  {
+		} else {
 			return "Admin";
-		} 
+		}
 	}
 
 	public boolean addDriver(String username, String password) {
@@ -455,6 +457,15 @@ public class DataAccess {
 		}
 	}
 
+	/**
+	 * Este método añade un viajero a la BD en caso de que no exista previamente
+	 * ningún usuario con el mismo username
+	 * 
+	 * @param username el nombre de usuario
+	 * @param password la contraseña
+	 * @return boolean true en caso de que se haya añadido el viajero a la BD, false
+	 *         en caso contrario
+	 */
 	public boolean addTraveler(String username, String password) {
 		try {
 			db.getTransaction().begin();
@@ -476,15 +487,15 @@ public class DataAccess {
 		}
 	}
 
-	/** 
+	/**
 	 * Este metodo realiza una operacion sobre el dinero de un usuario del sistema.
 	 * Puede depositar dinero o retirarlo.
 	 * 
 	 * @param username el nombre de usuario.
-	 * @param amount la cantidad de dinero. Un numero real mayor a 0 y menor a la cantidad
-	 * de dinero del usuario en el sistema.
-	 * @param deposit booleano que indica si se deposita el dinero. Si no, quiere decir
-	 * que se retira.
+	 * @param amount   la cantidad de dinero. Un numero real mayor a 0 y menor a la
+	 *                 cantidad de dinero del usuario en el sistema.
+	 * @param deposit  booleano que indica si se deposita el dinero. Si no, quiere
+	 *                 decir que se retira.
 	 * @return boolean indicando si la operacion ha sido exitosa o no, o excepcion.
 	 */
 	public boolean gauzatuEragiketa(String username, double amount, boolean deposit) {
@@ -500,7 +511,7 @@ public class DataAccess {
 						user.setMoney(0);
 					else
 						user.setMoney(currentMoney - amount);
-				} 
+				}
 				db.merge(user);
 				db.getTransaction().commit();
 				return true;
@@ -724,7 +735,7 @@ public class DataAccess {
 
 	public boolean addCar(String username, Car kotxe) {
 		try {
-			//Ed
+			// Ed
 			boolean b = isAdded(username, kotxe.getMatrikula());
 			if (!b) {
 				db.getTransaction().begin();
@@ -872,14 +883,14 @@ public class DataAccess {
 			if (us.getMota().equals("Driver")) {
 				List<Ride> rl = getRidesByDriver(us.getUsername());
 				deleteRides(rl); // Nueva funcion
-				
+
 				Driver d = getDriver(us.getUsername());
 				List<Car> cl = d.getCars();
 				deleteCars(cl); // Nueva funcion
 			} else {
 				List<Booking> lb = getBookedRides(us.getUsername());
 				deleteBookings(lb); // Nueva funcion
-				
+
 				List<Alert> la = getAlertsByUsername(us.getUsername());
 				deleteAlerts(la); // Nueva funcion
 			}
@@ -891,7 +902,7 @@ public class DataAccess {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void deleteAlerts(List<Alert> la) {
 		if (la == null) {
 			return;
@@ -901,7 +912,7 @@ public class DataAccess {
 			}
 		}
 	}
-	
+
 	private void deleteBookings(List<Booking> lb) {
 		if (lb == null) {
 			return;
@@ -912,7 +923,7 @@ public class DataAccess {
 			}
 		}
 	}
-	
+
 	private void deleteCars(List<Car> cl) {
 		if (cl == null) {
 			return;
@@ -923,7 +934,7 @@ public class DataAccess {
 			}
 		}
 	}
-	
+
 	private void deleteRides(List<Ride> rl) {
 		if (c == null) {
 			return;

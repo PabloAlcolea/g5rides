@@ -11,11 +11,11 @@ public class AddTravelerBDBlackTest {
 	static TestDataAccess testDA = new TestDataAccess();
 
 	@Test
+	/**
+	 * El usuario no está en la BD y lo añade correctamente. Para pasar el test,
+	 * debe terminar el método.
+	 */
 	public void test1() {
-		/**
-		 * El usuario no está en la BD y lo añade correctamente. Para pasar el test,
-		 * debe terminar el método.
-		 */
 		String username = "JuanBlack";
 		String password = "juanpass";
 		Boolean result = null;
@@ -37,11 +37,11 @@ public class AddTravelerBDBlackTest {
 	}
 
 	@Test
+	/**
+	 * El usuario ya está en la BD, por lo que no lo añade. Para superar el test,
+	 * debe terminar el método.
+	 */
 	public void test2() {
-		/**
-		 * El usuario ya está en la BD, por lo que no lo añade. Para superar el test,
-		 * debe terminar el método.
-		 */
 		String username = "ManuelBlack";
 		String password = "manuelpass";
 		Boolean result = null;
@@ -66,11 +66,11 @@ public class AddTravelerBDBlackTest {
 		}
 	}
 
-//	@Test
+	@Test
+	/**
+	 * El usuario vale null. Para que pase el test, debe saltar una excepción.
+	 */
 	public void test3() {
-		/**
-		 * El usuario vale null. Para que pase el test, debe saltar una excepción.
-		 */
 		String username = null;
 		String password = null;
 		Boolean result = null;
@@ -97,11 +97,11 @@ public class AddTravelerBDBlackTest {
 	}
 
 	@Test
+	/**
+	 * El usuario no pertenece al alfabeto regular latino, por lo que no puede ser
+	 * añadido a la DB. Para pasar el test, debe saltar una excepción.
+	 */
 	public void test4() {
-		/**
-		 * El usuario no pertenece al alfabeto regular latino, por lo que no puede ser
-		 * añadido a la DB. Para pasar el test, debe saltar una excepción.
-		 */
 		String username = "123";
 		String password = "pass";
 
