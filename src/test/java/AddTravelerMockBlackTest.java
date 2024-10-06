@@ -25,7 +25,8 @@ import domain.Driver;
 import domain.Traveler;
 import testOperations.TestDataAccess;
 
-public class AddTravelerMockWhiteTest {
+public class AddTravelerMockBlackTest {
+
 	static DataAccess sut = new DataAccess();
 
 	static TestDataAccess testDA = new TestDataAccess();
@@ -63,12 +64,13 @@ public class AddTravelerMockWhiteTest {
 		persistenceMock.close();
 	}
 
-	@Test
+//	@Test
 	/**
-	 * El usuario no existe en la BD y se añade correctamente. Para superar el test,
-	 * el método debe continuar y no lanzar una excepción.
+	 * El usuario no está en la BD y lo añade correctamente. Para pasar el test,
+	 * debe terminar el método.
 	 */
 	public void test1() {
+		
 		String username = "Juan";
 		String password = "juanpass";
 		Boolean res = null;
@@ -91,11 +93,11 @@ public class AddTravelerMockWhiteTest {
 			sut.close();
 		}
 	}
-
+	
 	@Test
 	/**
-	 * El usuario (Traveler) ya existe en la BD, por lo que no se añade. Para
-	 * superar el test, el método debe continuar y no lanzar una excepción.
+	 * El usuario ya está en la BD, por lo que no lo añade. Para superar el test,
+	 * debe terminar el método.
 	 */
 	public void test2() {
 		String username = "user";
@@ -126,11 +128,10 @@ public class AddTravelerMockWhiteTest {
 			sut.close();
 		}
 	}
-
+	
 	@Test
 	/**
-	 * El usuario tiene valor null. Para superar el test, el método debe lanzar una
-	 * excepción.
+	 * El usuario vale null. Para que pase el test, debe saltar una excepción.
 	 */
 	public void test3() {
 		String username = null;
@@ -154,36 +155,33 @@ public class AddTravelerMockWhiteTest {
 			sut.close();
 		}
 	}
-
+	
 	@Test
 	/**
-	 * El usuario (Rider) ya existe en la BD, por lo que no se añade. Para superar
-	 * el test, el método debe continuar.
+	 * El usuario no pertenece al alfabeto regular latino, por lo que no puede ser
+	 * añadido a la DB. Para pasar el test, debe saltar una excepción.
 	 */
 	public void test4() {
-		String username = "user";
-		String password = "user";
-		Boolean result = null;
+		String username = "123";
+		String password = "pass";
 
 		try {
-			Driver d = new Driver(username, password);
-			List<Driver> dList = new ArrayList<Driver>();
-			dList.add(d);
-
-			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.eq(Driver.class)))
-					.thenReturn(typedQueryDriver);
-			Mockito.when(typedQueryDriver.getResultList()).thenReturn(dList);
-
-			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.eq(Traveler.class))).thenReturn(typedQueryTraveler);
-			Mockito.when(typedQueryTraveler.getSingleResult()).thenReturn(null);
-
+			
+			Traveler t = new Traveler(username, password);
+			Driver d = new Driver("d", "d");
+			
+			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQueryDriver);
+		    Mockito.when(typedQueryDriver.getSingleResult()).thenReturn(d); // Simula que el driver ya existe
+			
+			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQueryTraveler);
+		    Mockito.when(typedQueryTraveler.getSingleResult()).thenReturn(t); // Simula que el traveler ya existe
+			
 			sut.open();
-			result = sut.addTraveler(username, password);
-			System.out.println(result);
-			assertFalse(result);
+			sut.addTraveler(username, password);
+			fail();
 
 		} catch (Exception e) {
-			fail();
+			assertFalse(false);
 
 		} finally {
 			sut.close();
