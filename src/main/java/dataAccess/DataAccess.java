@@ -689,6 +689,12 @@ public class DataAccess {
 			e.printStackTrace();
 		}
 	}
+	/** 
+	 * Este metodo recoge en una lista los viajes asociados al driver "username".
+	 * 
+	 * @param username el nombre de usuario.
+	 * @return una lista con los viajes del driver.
+	 */
 
 	public List<Ride> getRidesByDriver(String username) {
 		try {

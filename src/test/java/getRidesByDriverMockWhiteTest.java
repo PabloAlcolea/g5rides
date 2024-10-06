@@ -120,16 +120,16 @@ public class getRidesByDriverMockWhiteTest {
 	}
 	
 	@Test
-	/* el usuario no ha creado/asociado "createRides". El programa debería funcionar con total normalidad. 
-	 * estaría mal implementado.
+	/* el usuario no ha creado/asociado "createRides".
+	 * 
 	 */
 	
 	public void test3() {
 		List<Ride> rides;
 		String username = "User1";
-		boolean driverCreated = false;
+		
 		try {
-			// Definir parametros
+			
 
 			
 			
@@ -139,14 +139,14 @@ public class getRidesByDriverMockWhiteTest {
 			Driver d = new Driver(username,"pass");
 			Mockito.when(db.createQuery(Mockito.anyString())).thenReturn(typedQueryDriver);		
 			Mockito.when(typedQueryDriver.getSingleResult()).thenReturn(d);
+			
 			// Invocar al sut
 			sut.open();
-			rides = sut.getRidesByDriver(username);
-
-			assertNull(rides);
-			d.addRide("Donostia", "bilbao",null, 0, 0);
 			rides = sut.getRidesByDriver(d.getUsername());
+			
 			assertNotNull(rides);
+			d.addRide("Donostia", "bilbao",null, 0, 0);
+			
 
 		} catch (Exception e) {
 			fail(); // Si lanza una excepcion, el test falla

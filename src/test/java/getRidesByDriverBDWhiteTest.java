@@ -108,6 +108,7 @@ public class getRidesByDriverBDWhiteTest {
 			rides = sut.getRidesByDriver(username);
 			
 			assertTrue(rides.equals(ride2));
+			assertNotNull(rides); // activeRides ( return del metodo ) != null
 
 		} catch (Exception e) {
 			fail(); // Si lanza una excepcion, el test falla
