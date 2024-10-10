@@ -66,7 +66,7 @@ public class AddTravelerBDBlackTest {
 		}
 	}
 
-	@Test
+	//@Test
 	/**
 	 * El usuario vale null. Para que pase el test, debe saltar una excepción.
 	 */

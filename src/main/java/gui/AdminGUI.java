@@ -38,7 +38,7 @@ public class AdminGUI extends JFrame {
 		AdminGUI.setBussinessLogic(LoginGUI.getBusinessLogic());
 
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("AdminGUI.Admin"));
-		this.setSize(495, 290);
+		this.setSize(495, 290); 
 
 		jLabelSelectOption = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("AdminGUI.Admin"));
 		jLabelSelectOption.setFont(new Font("Tahoma", Font.BOLD, 13));

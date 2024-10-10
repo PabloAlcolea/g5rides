@@ -672,23 +672,7 @@ public class DataAccess {
 		try {
 			db.getTransaction().begin();
 
-			for (Booking booking : ride.getBookings()) {
-				if (booking.getStatus().equals("Accepted") || booking.getStatus().equals("NotDefined")) {
-					double price = booking.prezioaKalkulatu();
-					Traveler traveler = booking.getTraveler();
-					double frozenMoney = traveler.getIzoztatutakoDirua();
-					traveler.setIzoztatutakoDirua(frozenMoney - price);
-
-					double money = traveler.getMoney();
-					traveler.setMoney(money + price);
-					db.merge(traveler);
-					db.getTransaction().commit();
-					addMovement(traveler, "BookDeny", price);
-					db.getTransaction().begin();
-				}
-				booking.setStatus("Rejected");
-				db.merge(booking);
-			}
+			rejectBookings(ride);
 			ride.setActive(false);
 			db.merge(ride);
 
@@ -700,6 +684,27 @@ public class DataAccess {
 			e.printStackTrace();
 		}
 	}
+
+	public void rejectBookings(Ride ride) {
+		for (Booking booking : ride.getBookings()) {
+			if (booking.getStatus().equals("Accepted") || booking.getStatus().equals("NotDefined")) {
+				double price = booking.prezioaKalkulatu();
+				Traveler traveler = booking.getTraveler();
+				double frozenMoney = traveler.getIzoztatutakoDirua();
+				traveler.setIzoztatutakoDirua(frozenMoney - price);
+
+				double money = traveler.getMoney();
+				traveler.setMoney(money + price);
+				db.merge(traveler);
+				db.getTransaction().commit();
+				addMovement(traveler, "BookDeny", price);
+				db.getTransaction().begin();
+			}
+			booking.setStatus("Rejected");
+			db.merge(booking);
+		}
+	}
+	
 	/** 
 	 * Este metodo recoge en una lista los viajes asociados al driver "username".
 	 * 
@@ -762,13 +767,10 @@ public class DataAccess {
 		return era;
 	}
 
-	public boolean erreklamazioaBidali(String nor, String nori, Date gaur, Booking booking, String textua,
-			boolean aurk) {
+	public boolean erreklamazioaBidali(Complaint complaint) {
 		try {
 			db.getTransaction().begin();
-
-			Complaint erreklamazioa = new Complaint(nor, nori, gaur, booking, textua, aurk);
-			db.persist(erreklamazioa);
+			db.persist(complaint);
 			db.getTransaction().commit();
 			return true;
 		} catch (Exception e) {
@@ -778,6 +780,7 @@ public class DataAccess {
 		}
 	}
 
+	
 	public void updateComplaint(Complaint erreklamazioa) {
 		try {
 			db.getTransaction().begin();
@@ -996,7 +999,6 @@ public class DataAccess {
 		try {
 			db.getTransaction().begin();
 
-			boolean alertFound = false;
 			TypedQuery<Alert> alertQuery = db.createQuery("SELECT a FROM Alert a WHERE a.traveler.username = :username",
 					Alert.class);
 			alertQuery.setParameter("username", username);
@@ -1006,24 +1008,7 @@ public class DataAccess {
 					.createQuery("SELECT r FROM Ride r WHERE r.date > CURRENT_DATE AND r.active = true", Ride.class);
 			List<Ride> rides = rideQuery.getResultList();
 
-			for (Alert alert : alerts) {
-				boolean found = false;
-				for (Ride ride : rides) {
-					if (UtilDate.datesAreEqualIgnoringTime(ride.getDate(), alert.getDate())
-							&& ride.getFrom().equals(alert.getFrom()) && ride.getTo().equals(alert.getTo())
-							&& ride.getnPlaces() > 0) {
-						alert.setFound(true);
-						found = true;
-						if (alert.isActive())
-							alertFound = true;
-						break;
-					}
-				}
-				if (!found) {
-					alert.setFound(false);
-				}
-				db.merge(alert);
-			}
+			boolean alertFound = findAlerts(alerts, rides);
 
 			db.getTransaction().commit();
 			return alertFound;
@@ -1034,6 +1019,29 @@ public class DataAccess {
 		}
 	}
 
+	public boolean findAlerts(List<Alert> alerts, List<Ride> rides) {
+		boolean alertFound = false;
+		for (Alert alert : alerts) {
+			boolean found = false;
+			for (Ride ride : rides) {
+				if (UtilDate.datesAreEqualIgnoringTime(ride.getDate(), alert.getDate())
+						&& ride.getFrom().equals(alert.getFrom()) && ride.getTo().equals(alert.getTo())
+						&& ride.getnPlaces() > 0) {
+					alert.setFound(true);
+					found = true;
+					alertFound = alert.isActive();
+					break;
+				}
+			}
+			alert.setFound(found);
+			db.merge(alert);
+		}
+		return alertFound;
+	}
+	
+	
+
+	
 	public boolean createAlert(Alert alert) {
 		try {
 			db.getTransaction().begin();
