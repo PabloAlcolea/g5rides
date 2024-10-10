@@ -231,19 +231,9 @@ public class DataAccess {
 		if (driverName == null)
 			return null;
 		try {
-			if (new Date().compareTo(date) > 0) {
-				System.out.println("ppppp");
-				throw new RideMustBeLaterThanTodayException(
-						ResourceBundle.getBundle("Etiquetas").getString("CreateRideGUI.ErrorRideMustBeLaterThanToday"));
-			}
-
+			comprobarDate(date);
 			db.getTransaction().begin();
-			Driver driver = db.find(Driver.class, driverName);
-			if (driver.doesRideExists(from, to, date)) {
-				db.getTransaction().commit();
-				throw new RideAlreadyExistException(
-						ResourceBundle.getBundle("Etiquetas").getString("DataAccess.RideAlreadyExist"));
-			}
+			Driver driver = existeDriver(from, to, date, driverName);
 			Ride ride = driver.addRide(from, to, date, nPlaces, price);
 			// next instruction can be obviated
 			db.persist(driver);
@@ -255,6 +245,24 @@ public class DataAccess {
 			return null;
 		}
 
+	}
+
+	private Driver existeDriver(String from, String to, Date date, String driverName) throws RideAlreadyExistException {
+		Driver driver = db.find(Driver.class, driverName);
+		if (driver.doesRideExists(from, to, date)) {
+			db.getTransaction().commit();
+			throw new RideAlreadyExistException(
+					ResourceBundle.getBundle("Etiquetas").getString("DataAccess.RideAlreadyExist"));
+		}
+		return driver;
+	}
+
+	private void comprobarDate(Date date) throws RideMustBeLaterThanTodayException {
+		if (new Date().compareTo(date) > 0) {
+			System.out.println("ppppp");
+			throw new RideMustBeLaterThanTodayException(
+					ResourceBundle.getBundle("Etiquetas").getString("CreateRideGUI.ErrorRideMustBeLaterThanToday"));
+		}
 	}
 
 	/**
@@ -648,17 +656,7 @@ public class DataAccess {
 			TypedQuery<Driver> query = db.createQuery("SELECT d FROM Driver d WHERE d.username = :username",
 					Driver.class);
 			query.setParameter("username", username);
-			Driver driver = query.getSingleResult();
-
-			List<Ride> rides = driver.getCreatedRides();
-			List<Booking> bookings = new ArrayList<>();
-
-			for (Ride ride : rides) {
-				if (ride.isActive()) {
-					bookings.addAll(ride.getBookings());
-				}
-			}
-
+			List<Booking> bookings = bookingRides(query);
 			db.getTransaction().commit();
 			return bookings;
 		} catch (Exception e) {
@@ -668,6 +666,17 @@ public class DataAccess {
 		}
 	}
 
+	private List<Booking> bookingRides(TypedQuery<Driver> query) {
+		Driver driver = query.getSingleResult();
+		List<Ride> rides = driver.getCreatedRides();
+		List<Booking> bookings = new ArrayList<>();
+		for (Ride ride : rides) {
+			if (ride.isActive()) {
+				bookings.addAll(ride.getBookings());
+			}
+		}
+		return bookings;
+	}	
 	public void cancelRide(Ride ride) {
 		try {
 			db.getTransaction().begin();
@@ -886,7 +895,6 @@ public class DataAccess {
 			if (us.getMota().equals("Driver")) {
 				List<Ride> rl = getRidesByDriver(us.getUsername());
 				deleteRides(rl); // Nueva funcion
-
 				Driver d = getDriver(us.getUsername());
 				List<Car> cl = d.getCars();
 				deleteCars(cl); // Nueva funcion
@@ -905,7 +913,6 @@ public class DataAccess {
 			e.printStackTrace();
 		}
 	}
-
 	private void deleteAlerts(List<Alert> la) {
 		if (la == null) {
 			return;

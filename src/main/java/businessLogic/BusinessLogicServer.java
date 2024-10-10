@@ -84,8 +84,9 @@ public class BusinessLogicServer extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.setActionCommand("Cancel");
+				String Cancelar = "Cancel";
+				JButton cancelButton = new JButton(Cancelar);
+				cancelButton.setActionCommand(Cancelar);
 				buttonPane.add(cancelButton);
 			}
 		}
