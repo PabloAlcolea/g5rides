@@ -88,8 +88,8 @@ public class CreateRideMockWhiteTest {
 				
 				//invoke System Under Test (sut)  
 				sut.open();
-				Ride ride=sut.createRide(rideFrom, rideTo, rideDate, 0, 0, driverUserName);
-
+				Ride ride=sut.createRide(new Ride(rideFrom, rideTo, rideDate, 2, 10, driver));
+				
 				//verify the results
 				assertNull(ride);
 				
@@ -121,7 +121,8 @@ public class CreateRideMockWhiteTest {
 
         
 		String driverUsername="Driver Test";
-
+		Driver d = new Driver(driverUsername, "");
+		
 		String rideFrom="Donostia";
 		String rideTo="Zarautz";
 		
@@ -142,7 +143,7 @@ public class CreateRideMockWhiteTest {
 			
 	      //invoke System Under Test (sut)  
 			sut.open();
-		    Ride r=sut.createRide(rideFrom, rideTo, rideDate, 0, 0, driverUsername);
+			Ride r=sut.createRide(new Ride(rideFrom, rideTo, rideDate, 2, 10, d));
 			sut.close();
 			
 			assertNull(r);
@@ -186,8 +187,8 @@ public class CreateRideMockWhiteTest {
 				
 				//invoke System Under Test (sut)  
 				sut.open();
-				Ride ride=sut.createRide(rideFrom, rideTo, rideDate, 0, 0, driverUserName);
-
+				Ride ride=sut.createRide(new Ride(rideFrom, rideTo, rideDate, 2, 10, driver));
+				
 				//verify the results
 				assertNull(ride);
 				
@@ -240,7 +241,7 @@ public class CreateRideMockWhiteTest {
 			
 			//invoke System Under Test (sut)  
 			sut.open();
-		    sut.createRide(rideFrom, rideTo, rideDate, 0, 0, driverUsername);
+			Ride ride=sut.createRide(new Ride(rideFrom, rideTo, rideDate, 2, 10, driver));
 			sut.close();
 			
 			fail();
@@ -285,7 +286,7 @@ public class CreateRideMockWhiteTest {
 					
 			//invoke System Under Test (sut)  
 			sut.open();
-			Ride ride=sut.createRide(rideFrom, rideTo, rideDate, 0, 0, driverUsername);
+			Ride ride=sut.createRide(new Ride(rideFrom, rideTo, rideDate, 2, 10, driver1));
 			sut.close();
 			//verify the results
 			assertNotNull(ride);

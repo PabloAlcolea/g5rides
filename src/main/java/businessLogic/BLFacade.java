@@ -49,7 +49,7 @@ public interface BLFacade {
     public List<String> getDestinationCities(String from);
 
     @WebMethod
-    public Ride createRide(String from, String to, Date date, int nPlaces, float price, String driverName)
+    public Ride createRide(Ride r)
             throws RideMustBeLaterThanTodayException, RideAlreadyExistException;
 
     @WebMethod

@@ -52,13 +52,13 @@ public class CreateRideBDBlackTest {
 		
 		testDA.open();
 		
-			testDA.createDriver(driverUsername,null);
+			Driver d = testDA.createDriver(driverUsername,null);
 		
 		testDA.close();
 		try {
 			//invoke System Under Test (sut)  
 			sut.open();
-			 ride=sut.createRide(rideFrom, rideTo, rideDate, 2, 10, driverUsername);
+			 ride=sut.createRide(new Ride(rideFrom, rideTo, rideDate, 2, 10, d));
 			sut.close();			
 			
 			//verify the results
@@ -116,13 +116,13 @@ public class CreateRideBDBlackTest {
 		
 		testDA.open();
 		
-			testDA.createDriver(driverUsername,null);
+			Driver d= testDA.createDriver(driverUsername,null);
 		
 		testDA.close();
 		try {
 			//invoke System Under Test (sut)  
 			sut.open();
-			 ride=sut.createRide(rideFrom, rideTo, rideDate, 2, 10, driverUsername);
+			ride=sut.createRide(new Ride(rideFrom, rideTo, rideDate, 2, 10, d));
 			sut.close();			
 			
 			//verify the results
@@ -177,13 +177,13 @@ public class CreateRideBDBlackTest {
 		
 		testDA.open();
 		
-			testDA.createDriver(driverUsername,null);
+			Driver d = testDA.createDriver(driverUsername,null);
 		
 		testDA.close();
 		try {
 			//invoke System Under Test (sut)  
 			sut.open();
-			 ride=sut.createRide(rideFrom, rideTo, rideDate, 2, 10, driverUsername);
+			ride=sut.createRide(new Ride(rideFrom, rideTo, rideDate, 2, 10, d));
 			sut.close();			
 			
 			//verify the results
@@ -231,12 +231,12 @@ public class CreateRideBDBlackTest {
 		Ride ride=null;
 		
 		testDA.open();
-			testDA.createDriver(driverUsername,null);
+			Driver d = testDA.createDriver(driverUsername,null);
 		testDA.close();
 		try {
 			//invoke System Under Test (sut)  
 			sut.open();
-			 ride=sut.createRide(rideFrom, rideTo, rideDate, 2, 10, driverUsername);
+			ride=sut.createRide(new Ride(rideFrom, rideTo, rideDate, 2, 10, d));
 			sut.close();			
 			
 			//verify the results
@@ -290,13 +290,13 @@ public class CreateRideBDBlackTest {
 		
 		testDA.open();
 		
-			testDA.createDriver(driverUsername,null);
+			Driver d = testDA.createDriver(driverUsername,null);
 		
 		testDA.close();
 		try {
 			//invoke System Under Test (sut)  
 			sut.open();
-			 ride=sut.createRide(rideFrom, rideTo, rideDate, -2, 0, driverUsername);
+			ride=sut.createRide(new Ride(rideFrom, rideTo, rideDate, 2, 10, d));
 			sut.close();			
 			
 			//verify the results
@@ -352,13 +352,13 @@ public class CreateRideBDBlackTest {
 		
 		testDA.open();
 		
-			testDA.createDriver(driverUsername,null);
+			Driver d = testDA.createDriver(driverUsername,null);
 		
 		testDA.close();
 		try {
 			//invoke System Under Test (sut)  
 			sut.open();
-			 ride=sut.createRide(rideFrom, rideTo, rideDate, 2, -10, driverUsername);
+			ride=sut.createRide(new Ride(rideFrom, rideTo, rideDate, 2, 10, d));
 			sut.close();			
 			
 			//verify the results
@@ -422,8 +422,7 @@ public class CreateRideBDBlackTest {
 				
 				//invoke System Under Test (sut)  
 				sut.open();
-			    ride=sut.createRide(rideFrom, rideTo, rideDate, 2, 10, driverUsername);
-
+				ride=sut.createRide(new Ride(rideFrom, rideTo, rideDate, 2, 10, driver));
 				//verify the results
 				assertNull(ride);
 				
@@ -465,6 +464,7 @@ public class CreateRideBDBlackTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
+		Driver d = new Driver(driverUsername, driverPassword);
 		try {
 			
 			//define parameters
@@ -477,7 +477,7 @@ public class CreateRideBDBlackTest {
 			
 			//invoke System Under Test (sut)  
 			sut.open();
-		    sut.createRide(rideFrom, rideTo, rideDate, 2, 10, driverUsername);
+			Ride ride=sut.createRide(new Ride(rideFrom, rideTo, rideDate, 2, 10, d));
 			sut.close();
 			
 			fail();
@@ -518,13 +518,13 @@ public class CreateRideBDBlackTest {
 		
 		testDA.open();
 		
-			testDA.createDriver(driverUsername,null);
+			Driver d = testDA.createDriver(driverUsername,null);
 		
 		testDA.close();
 		try {
 			//invoke System Under Test (sut)  
 			sut.open();
-			 ride=sut.createRide(rideFrom, rideFrom, rideDate, 2, 10, driverUsername);
+			ride=sut.createRide(new Ride(rideFrom, rideFrom, rideDate, 2, 10, d));
 			sut.close();			
 			
 			//verify the results
@@ -585,14 +585,13 @@ public class CreateRideBDBlackTest {
 			//Check if exist this ride for this driver, and if exist, remove it.
 			
 			testDA.open();
-			testDA.addDriverWithRide( driverUsername,  rideFrom,  rideTo,   rideDate,2,10);
+			Driver d = testDA.addDriverWithRide( driverUsername,  rideFrom,  rideTo,   rideDate,2,10);
 			testDA.close();
 			
 			
 			//invoke System Under Test (sut)  
 			sut.open();
-			Ride ride=sut.createRide(rideFrom, rideTo, rideDate, 2, 10, driverUsername);
-			
+			Ride ride=sut.createRide(new Ride(rideFrom, rideTo, rideDate, 2, 10, d));			
 
 			sut.close();
 			//verify the results
