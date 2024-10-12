@@ -97,7 +97,7 @@ public class MoneyGUI extends JFrame {
 				jButtonClose_actionPerformed(e);
 			}
 		});
-
+		
 		jButtonGauzatu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String selectedOption = (String) comboBoxEragiketa.getSelectedItem();
