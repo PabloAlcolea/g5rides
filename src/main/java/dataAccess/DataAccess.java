@@ -135,11 +135,12 @@ public class DataAccess {
 			db.persist(book4);
 			db.persist(book5);
 
-			Movement m1 = new Movement(traveler1, "BookFreeze", 20);
-			Movement m2 = new Movement(traveler1, "BookFreeze", 40);
-			Movement m3 = new Movement(traveler1, "BookFreeze", 5);
-			Movement m4 = new Movement(traveler2, "BookFreeze", 4);
-			Movement m5 = new Movement(traveler1, "BookFreeze", 3);
+			String bookFreeze = "BookFreeze";
+			Movement m1 = new Movement(traveler1, bookFreeze, 20);
+			Movement m2 = new Movement(traveler1, bookFreeze, 40);
+			Movement m3 = new Movement(traveler1, bookFreeze, 5);
+			Movement m4 = new Movement(traveler2, bookFreeze, 4);
+			Movement m5 = new Movement(traveler1, bookFreeze, 3);
 			Movement m6 = new Movement(driver1, "Deposit", 15);
 			Movement m7 = new Movement(traveler1, "Deposit", 168);
 
@@ -224,21 +225,24 @@ public class DataAccess {
 	 * @throws RideAlreadyExistException         if the same ride already exists for
 	 *                                           the driver
 	 */
-	public Ride createRide(String from, String to, Date date, int nPlaces, float price, String driverName)
-			throws RideAlreadyExistException, RideMustBeLaterThanTodayException {
-		System.out.println(
-				">> DataAccess: createRide=> from= " + from + " to= " + to + " driver=" + driverName + " date " + date);
-		if (driverName == null)
+	public Ride createRide(Ride r) throws RideAlreadyExistException, RideMustBeLaterThanTodayException {
+		System.out.println(">> DataAccess: createRide=> from= " + r.getFrom() + " to= " + r.getTo() + " driver="
+				+ r.getDriver().getUsername() + " date " + r.getDate());
+		if (r.getDriver().getUsername() == null)
 			return null;
 		try {
-			comprobarDate(date);
+			comprobarDate(r.getDate());
 			db.getTransaction().begin();
+<<<<<<< HEAD
 			Driver driver = existeDriver(from, to, date, driverName);
 			Ride ride = driver.addRide(null);
 			// next instruction can be obviated
+=======
+			Driver driver = existeDriver(r.getFrom(), r.getTo(), r.getDate(), r.getDriver().getUsername());
+			Ride ride = driver.addRide(r.getFrom(), r.getTo(), r.getDate(), r.getnPlaces(), (float) r.getPrice());
+>>>>>>> branch 'main' of https://github.com/PabloAlcolea/g5rides
 			db.persist(driver);
 			db.getTransaction().commit();
-
 			return ride;
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
@@ -512,14 +516,7 @@ public class DataAccess {
 			User user = getUser(username);
 			if (user != null) {
 				double currentMoney = user.getMoney();
-				if (deposit) {
-					user.setMoney(currentMoney + amount);
-				} else {
-					if ((currentMoney - amount) < 0)
-						user.setMoney(0);
-					else
-						user.setMoney(currentMoney - amount);
-				}
+				actualizarDinero(amount, deposit, user, currentMoney);
 				db.merge(user);
 				db.getTransaction().commit();
 				return true;
@@ -530,6 +527,17 @@ public class DataAccess {
 			e.printStackTrace();
 			db.getTransaction().rollback();
 			return false;
+		}
+	}
+
+	private void actualizarDinero(double amount, boolean deposit, User user, double currentMoney) {
+		if (deposit) {
+			user.setMoney(currentMoney + amount);
+		} else {
+			if ((currentMoney - amount) < 0)
+				user.setMoney(0);
+			else
+				user.setMoney(currentMoney - amount);
 		}
 	}
 
@@ -551,13 +559,9 @@ public class DataAccess {
 			db.getTransaction().begin();
 
 			Traveler traveler = getTraveler(username);
-			if (traveler == null) {
-				return false;
-			}
 
-			if (ride.getnPlaces() < seats) {
+			if (!existeTravelerYAsientosSuficientes(ride, seats, traveler))
 				return false;
-			}
 
 			double ridePriceDesk = (ride.getPrice() - desk) * seats;
 			double availableBalance = traveler.getMoney();
@@ -583,6 +587,13 @@ public class DataAccess {
 			db.getTransaction().rollback();
 			return false;
 		}
+	}
+
+	private boolean existeTravelerYAsientosSuficientes(Ride ride, int seats, Traveler traveler) {
+		if (traveler == null || ride.getnPlaces() < seats) {
+			return false;
+		}
+		return true;
 	}
 
 	public List<Movement> getAllMovements(User user) {
@@ -676,7 +687,8 @@ public class DataAccess {
 			}
 		}
 		return bookings;
-	}	
+	}
+
 	public void cancelRide(Ride ride) {
 		try {
 			db.getTransaction().begin();
@@ -713,8 +725,8 @@ public class DataAccess {
 			db.merge(booking);
 		}
 	}
-	
-	/** 
+
+	/**
 	 * Este metodo recoge en una lista los viajes asociados al driver "username".
 	 * 
 	 * @param username el nombre de usuario.
@@ -789,7 +801,6 @@ public class DataAccess {
 		}
 	}
 
-	
 	public void updateComplaint(Complaint erreklamazioa) {
 		try {
 			db.getTransaction().begin();
@@ -913,6 +924,7 @@ public class DataAccess {
 			e.printStackTrace();
 		}
 	}
+
 	private void deleteAlerts(List<Alert> la) {
 		if (la == null) {
 			return;
@@ -1045,10 +1057,7 @@ public class DataAccess {
 		}
 		return alertFound;
 	}
-	
-	
 
-	
 	public boolean createAlert(Alert alert) {
 		try {
 			db.getTransaction().begin();
