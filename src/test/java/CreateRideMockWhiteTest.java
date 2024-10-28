@@ -233,7 +233,7 @@ public class CreateRideMockWhiteTest {
 		try {
 					
 			 driver=new Driver(driverUsername,driverPassword);
-			 driver.addRide(rideFrom, rideTo, rideDate, 2, 10);
+			 driver.addRide(null);
 			//configure the state through mocks 
 	        Mockito.when(db.find(Driver.class, driver.getUsername())).thenReturn(driver);
 		

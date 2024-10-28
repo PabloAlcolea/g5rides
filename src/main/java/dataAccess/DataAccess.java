@@ -105,11 +105,11 @@ public class DataAccess {
 			cal.set(2024, Calendar.APRIL, 20);
 			Date date4 = UtilDate.trim(cal.getTime());
 
-			driver1.addRide("Donostia", madrid, date2, 5, 20); // ride1
-			driver1.addRide("Irun", "Donostia", date2, 5, 2); // ride2
-			driver1.addRide(madrid, "Donostia", date3, 5, 5); // ride3
-			driver1.addRide("Barcelona", madrid, date4, 0, 10); // ride4
-			driver2.addRide("Donostia", "Hondarribi", date1, 5, 3); // ride5
+			driver1.addRide(null); // ride1
+			driver1.addRide(null); // ride2
+			driver1.addRide(null); // ride3
+			driver1.addRide(null); // ride4
+			driver2.addRide(null); // ride5
 
 			Ride ride1 = driver1.getCreatedRides().get(0);
 			Ride ride2 = driver1.getCreatedRides().get(1);
@@ -234,7 +234,7 @@ public class DataAccess {
 			comprobarDate(date);
 			db.getTransaction().begin();
 			Driver driver = existeDriver(from, to, date, driverName);
-			Ride ride = driver.addRide(from, to, date, nPlaces, price);
+			Ride ride = driver.addRide(null);
 			// next instruction can be obviated
 			db.persist(driver);
 			db.getTransaction().commit();

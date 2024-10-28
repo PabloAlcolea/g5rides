@@ -89,7 +89,7 @@ public class TestDataAccess {
 		db.getTransaction().begin();
 		try {
 			driver = db.find(Driver.class, d);
-			driver.addRide(from, to, date, nPlaces, price);
+			driver.addRide(null);
 			db.getTransaction().commit();
 			System.out.println("Driver ride created " + driver);
 
@@ -112,7 +112,7 @@ public class TestDataAccess {
 				driver = new Driver(name, null);
 				db.persist(driver);
 			}
-			driver.addRide(from, to, date, nPlaces, price);
+			driver.addRide(null);
 			db.getTransaction().commit();
 			System.out.println("Driver created " + driver);
 
