@@ -233,14 +233,9 @@ public class DataAccess {
 		try {
 			comprobarDate(r.getDate());
 			db.getTransaction().begin();
-<<<<<<< HEAD
-			Driver driver = existeDriver(from, to, date, driverName);
-			Ride ride = driver.addRide(null);
-			// next instruction can be obviated
-=======
 			Driver driver = existeDriver(r.getFrom(), r.getTo(), r.getDate(), r.getDriver().getUsername());
-			Ride ride = driver.addRide(r.getFrom(), r.getTo(), r.getDate(), r.getnPlaces(), (float) r.getPrice());
->>>>>>> branch 'main' of https://github.com/PabloAlcolea/g5rides
+			
+			Ride ride = driver.addRide(r);
 			db.persist(driver);
 			db.getTransaction().commit();
 			return ride;
