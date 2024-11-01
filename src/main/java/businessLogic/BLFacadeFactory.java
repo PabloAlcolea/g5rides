@@ -36,7 +36,9 @@ public class BLFacadeFactory {
 		QName qname = new QName("http://businessLogic/", "BLFacadeImplementationService");
 
 		Service service = Service.create(url, qname);
-
+		
 		appFacadeInterface = service.getPort(BLFacade.class);
 	}
 }
+}
+
