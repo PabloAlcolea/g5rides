@@ -14,9 +14,10 @@ public class BLFacadeFactory {
 //	UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 
 	public BLFacadeImplementation createBLFacade(ConfigXML c) {
+		BLFacadeImplementation appFacadeInterface = null;
 		try {
 
-			BLFacadeImplementation appFacadeInterface;
+			
 			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 
 			if (c.isBusinessLogicLocal()) {
@@ -25,7 +26,7 @@ public class BLFacadeFactory {
 				
 				appFacadeInterface = new BLFacadeImplementation(da);
 				
-				return appFacadeInterface;
+				
 
 			}
 
@@ -44,7 +45,6 @@ public class BLFacadeFactory {
 
 				appFacadeInterface = (BLFacadeImplementation) service.getPort(BLFacade.class);
 				
-				return appFacadeInterface;
 			}
 
 		} catch (Exception e) {
@@ -53,7 +53,7 @@ public class BLFacadeFactory {
 
 			System.out.println("Error in ApplicationLauncher: " + e.toString());
 		}
-		return null;
+		return appFacadeInterface;
 	}
 
 	// *******************************************************************************************//
