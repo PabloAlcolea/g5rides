@@ -11,49 +11,39 @@ import dataAccess.DataAccess;
 
 public class BLFacadeFactory {
 
-//	UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-
-	public BLFacadeImplementation createBLFacade(ConfigXML c) {
-		BLFacadeImplementation appFacadeInterface = null;
+	public BLFacade createBLFacade(ConfigXML c) {
+		
 		try {
-
 			
-			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-
 			if (c.isBusinessLogicLocal()) {
-
 				DataAccess da = new DataAccess();				
-				
-				appFacadeInterface = new BLFacadeImplementation(da);
-				
-				
-
+				return new BLFacadeImplementation(da); // return "appFacadeInterface"
 			}
 
-			else { // If remote
+			else {
 
 				String serviceName = "http://" + c.getBusinessLogicNode() + ":" + c.getBusinessLogicPort() + "/ws/"
 						+ c.getBusinessLogicName() + "?wsdl";
-
 				URL url = new URL(serviceName);
-
+				
 				// 1st argument refers to wsdl document above
 				// 2nd argument is service name, refer to wsdl document above
 				QName qname = new QName("http://businessLogic/", "BLFacadeImplementationService");
-
+				
 				Service service = Service.create(url, qname);
-
-				appFacadeInterface = (BLFacadeImplementation) service.getPort(BLFacade.class);
+				return service.getPort(BLFacade.class); // return "appFacadeInterface"
 				
 			}
 
 		} catch (Exception e) {
+			
 			// a.jLabelSelectOption.setText("Error: "+e.toString());
 			// a.jLabelSelectOption.setForeground(Color.RED);
 
 			System.out.println("Error in ApplicationLauncher: " + e.toString());
+			return null;
 		}
-		return appFacadeInterface;
+		
 	}
 
 	// *******************************************************************************************//

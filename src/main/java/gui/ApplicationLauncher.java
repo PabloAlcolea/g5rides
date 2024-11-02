@@ -21,12 +21,10 @@ public class ApplicationLauncher {
 		ConfigXML c = ConfigXML.getInstance();
 
 		System.out.println(c.getLocale());
-
 		Locale.setDefault(new Locale(c.getLocale()));
-
 		System.out.println("Locale: " + Locale.getDefault());
 
-		BLFacadeImplementation appFacadeInterface = new BLFacadeFactory().createBLFacade(c);
+		BLFacade appFacadeInterface = new BLFacadeFactory().createBLFacade(c);
 		
 		if (appFacadeInterface != null) {
 			MainGUI.setBussinessLogic(appFacadeInterface);
