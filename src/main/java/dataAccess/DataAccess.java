@@ -14,6 +14,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
+import businessLogic.ExtendedIterator;
+import businessLogic.ExtendedIterator2;
 import configuration.ConfigXML;
 import configuration.UtilDate;
 import domain.*;
@@ -189,11 +191,18 @@ public class DataAccess {
 	 * 
 	 * @return collection of cities
 	 */
+	/* codigo original
 	public List<String> getDepartCities() {
 		TypedQuery<String> query = db.createQuery("SELECT DISTINCT r.from FROM Ride r ORDER BY r.from", String.class);
 		List<String> cities = query.getResultList();
 		return cities;
 
+	}
+	*/
+	public ExtendedIterator<String> getDepartCitiesIterator() {
+	    TypedQuery<String> query = db.createQuery("SELECT DISTINCT r.from FROM Ride r ORDER BY r.from", String.class);
+	    List<String> cities = query.getResultList();
+	    return new ExtendedIterator2<>(cities); // Envolver el resultado en ExtendedIteratorImpl
 	}
 
 	/**

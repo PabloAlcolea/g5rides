@@ -1,6 +1,7 @@
 package gui;
 
 import businessLogic.BLFacade;
+import businessLogic.ExtendedIterator;
 import configuration.UtilDate;
 import com.toedter.calendar.JCalendar;
 import domain.Discount;
@@ -103,11 +104,18 @@ public class BookGUI extends JFrame {
 				jButton2_actionPerformed(e);
 			}
 		});
-
+		/* ORIGEN PUNTO 2
 		List<String> origins = appFacadeInterface.getDepartCities();
 
 		for (String location : origins)
 			originLocations.addElement(location);
+			
+			*/
+		ExtendedIterator<String> origins = appFacadeInterface.getDepartCitiesIterator();
+		while(origins.hasNext()) {
+			originLocations.addElement(origins.next());
+		}
+			
 
 		jLabelOrigin.setBounds(new Rectangle(6, 56, 92, 20));
 		jLabelDestination.setBounds(6, 81, 61, 16);

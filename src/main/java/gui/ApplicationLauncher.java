@@ -13,25 +13,52 @@ import domain.User;
 import businessLogic.BLFacade;
 import businessLogic.BLFacadeFactory;
 import businessLogic.BLFacadeImplementation;
+import businessLogic.ExtendedIterator;
 
 public class ApplicationLauncher {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-		ConfigXML c = ConfigXML.getInstance();
+        ConfigXML c = ConfigXML.getInstance();
 
-		System.out.println(c.getLocale());
-		Locale.setDefault(new Locale(c.getLocale()));
-		System.out.println("Locale: " + Locale.getDefault());
+        System.out.println(c.getLocale());
+        Locale.setDefault(new Locale(c.getLocale()));
+        System.out.println("Locale: " + Locale.getDefault());
 
-		BLFacade appFacadeInterface = new BLFacadeFactory().createBLFacade(c);
-		
-		if (appFacadeInterface != null) {
-			MainGUI.setBussinessLogic(appFacadeInterface);
-			MainGUI a = new MainGUI();
-			a.setVisible(true);
-		}
-		
+        BLFacade appFacadeInterface = new BLFacadeFactory().createBLFacade(c);
+        
+        if (appFacadeInterface != null) {
+            MainGUI.setBussinessLogic(appFacadeInterface);
+            MainGUI a = new MainGUI();
+            a.setVisible(true);
+        }
+        
+        ExtendedIterator<String> i = appFacadeInterface.getDepartCitiesIterator();
+        System.out.println(i.toString());
+        String c1;
+        
+        System.out.println("_____________________");
+        System.out.println("FROM\tLAST\tTO\tFIRST");
+        i.goLast(); // Go to last element
+        
+        while (i.hasPrevious()) {
+            c1 = i.previous();
+            System.out.println(c1);  // 
+        }
+
+        System.out.println();
+        System.out.println("_____________________");
+        System.out.println("FROM\tFIRST\tTO\tLAST");
+        
+        i.goFirst(); // Go to first element
+        
+        while (i.hasNext()) {
+            c1 = i.next();
+            System.out.println(c1);  // También aquí imprimimos la ciudad (c1), no el objeto c
+        
+    }
+}
+
 //		try {
 //
 //			BLFacade appFacadeInterface;
@@ -75,4 +102,4 @@ public class ApplicationLauncher {
 
 	}
 
-}
+

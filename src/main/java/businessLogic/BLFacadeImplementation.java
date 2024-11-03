@@ -53,11 +53,24 @@ public class BLFacadeImplementation implements BLFacade {
 	/**
 	 * {@inheritDoc}
 	 */
+	/* codigo original apartado 2
 	@WebMethod
 	public List<String> getDepartCities() {
 		dbManager.open();
 
 		List<String> departLocations = dbManager.getDepartCities();
+
+		dbManager.close();
+
+		return departLocations;
+
+	}
+	*/
+	@WebMethod
+	public ExtendedIterator<String> getDepartCitiesIterator() {
+		dbManager.open();
+
+		ExtendedIterator<String> departLocations = dbManager.getDepartCitiesIterator();
 
 		dbManager.close();
 
