@@ -69,9 +69,12 @@ public class ConfigXML {
 	public boolean isBusinessLogicLocal() {
 		return businessLogicLocal;
 	}
+	public void setBusinessLogicLocal(boolean businessLogicLocal) {
+		this.businessLogicLocal = businessLogicLocal;
+	}
 	private static ConfigXML theInstance = new ConfigXML();
 
-	private ConfigXML(){
+	public ConfigXML(){
 		
 		  try {
 			  DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
