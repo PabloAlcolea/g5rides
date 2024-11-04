@@ -15,7 +15,7 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
 import businessLogic.ExtendedIterator;
-import businessLogic.ExtendedIterator2;
+import businessLogic.ExtendedIteratorImplementation;
 import configuration.ConfigXML;
 import configuration.UtilDate;
 import domain.*;
@@ -107,17 +107,17 @@ public class DataAccess {
 			cal.set(2024, Calendar.APRIL, 20);
 			Date date4 = UtilDate.trim(cal.getTime());
 
-			driver1.addRide(null); // ride1
-			driver1.addRide(null); // ride2
-			driver1.addRide(null); // ride3
-			driver1.addRide(null); // ride4
-			driver2.addRide(null); // ride5
-
-			Ride ride1 = driver1.getCreatedRides().get(0);
-			Ride ride2 = driver1.getCreatedRides().get(1);
-			Ride ride3 = driver1.getCreatedRides().get(2);
-			Ride ride4 = driver1.getCreatedRides().get(3);
-			Ride ride5 = driver2.getCreatedRides().get(0);
+			Ride ride1 = new Ride("Barcelona", "Madrid", date1, 4, 20, driver1);
+			Ride ride2 = new Ride("Madrid", "Burgos", date1, 4, 20, driver1);
+			Ride ride3 = new Ride("Toledo", "Jaen", date1, 4, 20, driver1);
+			Ride ride4 = new Ride("Donostia", "Paris", date1, 4, 20, driver1);
+			Ride ride5 = new Ride("Paris", "Baiona", date1, 4, 20, driver2);
+			
+			driver1.addRide(ride1); // ride1
+			driver1.addRide(ride2); // ride2
+			driver1.addRide(ride3); // ride3
+			driver1.addRide(ride4); // ride4
+			driver2.addRide(ride5); // ride5
 
 			Booking book1 = new Booking(ride4, traveler1, 2);
 			Booking book2 = new Booking(ride1, traveler1, 2);
@@ -191,20 +191,14 @@ public class DataAccess {
 	 * 
 	 * @return collection of cities
 	 */
-	/* codigo original
+	// codigo original
 	public List<String> getDepartCities() {
 		TypedQuery<String> query = db.createQuery("SELECT DISTINCT r.from FROM Ride r ORDER BY r.from", String.class);
 		List<String> cities = query.getResultList();
 		return cities;
 
 	}
-	*/
-	public ExtendedIterator<String> getDepartCitiesIterator() {
-	    TypedQuery<String> query = db.createQuery("SELECT DISTINCT r.from FROM Ride r ORDER BY r.from", String.class);
-	    List<String> cities = query.getResultList();
-	    return new ExtendedIterator2<>(cities); // Envolver el resultado en ExtendedIteratorImpl
-	}
-
+	
 	/**
 	 * This method returns all the arrival destinations, from all rides that depart
 	 * from a given city

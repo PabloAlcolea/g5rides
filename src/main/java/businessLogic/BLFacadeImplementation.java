@@ -53,7 +53,6 @@ public class BLFacadeImplementation implements BLFacade {
 	/**
 	 * {@inheritDoc}
 	 */
-	/* codigo original apartado 2
 	@WebMethod
 	public List<String> getDepartCities() {
 		dbManager.open();
@@ -65,16 +64,16 @@ public class BLFacadeImplementation implements BLFacade {
 		return departLocations;
 
 	}
-	*/
+	
 	@WebMethod
 	public ExtendedIterator<String> getDepartCitiesIterator() {
 		dbManager.open();
-
-		ExtendedIterator<String> departLocations = dbManager.getDepartCitiesIterator();
+		
+		List<String> departLocations = dbManager.getDepartCities();
 
 		dbManager.close();
 
-		return departLocations;
+		return new ExtendedIteratorImplementation<String>(departLocations);
 
 	}
 

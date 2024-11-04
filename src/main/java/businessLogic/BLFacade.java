@@ -42,9 +42,9 @@ public interface BLFacade {
 
     // Los demás métodos de la lógica de negocio...
     
-    //@WebMethod
-   // public List<String> getDepartCities();
-    
+    @WebMethod
+    public List<String> getDepartCities();
+     
     public ExtendedIterator<String> getDepartCitiesIterator();
 
     @WebMethod
