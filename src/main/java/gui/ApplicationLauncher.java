@@ -9,6 +9,7 @@ import javax.xml.ws.Service;
 
 import configuration.ConfigXML;
 import dataAccess.DataAccess;
+import domain.Driver;
 import domain.User;
 import businessLogic.BLFacade;
 import businessLogic.BLFacadeFactory;
@@ -21,42 +22,55 @@ public class ApplicationLauncher {
 
 		ConfigXML c = ConfigXML.getInstance();
 
-		System.out.println(c.getLocale());
-		Locale.setDefault(new Locale(c.getLocale()));
-		System.out.println("Locale: " + Locale.getDefault());
+//		System.out.println(c.getLocale());
+//		Locale.setDefault(new Locale(c.getLocale()));
+//		System.out.println("Locale: " + Locale.getDefault());
+//
+//		BLFacade appFacadeInterface = new BLFacadeFactory().createBLFacade(c);
+//
+//		if (appFacadeInterface != null) {
+//			MainGUI.setBussinessLogic(appFacadeInterface);
+//			MainGUI a = new MainGUI();
+//			a.setVisible(true);
+//		}
+//
+//		ExtendedIterator<String> i = appFacadeInterface.getDepartCitiesIterator();
+//		String c1;
+//
+//		System.out.println("_____________________");
+//		System.out.println("FROM\tLAST\tTO\tFIRST");
+//		i.goLast(); // Go to last element
+//
+//		while (i.hasPrevious()) {
+//			c1 = i.previous();
+//			System.out.println(c1); //
+//		}
+//
+//		System.out.println();
+//		System.out.println("_____________________");
+//		System.out.println("FROM\tFIRST\tTO\tLAST");
+//
+//		i.goFirst(); // Go to first element
+//
+//		while (i.hasNext()) {
+//			c1 = i.next();
+//			System.out.println(c1); // También aquí imprimimos la ciudad (c1), no el objeto c
+//
+//		}
 
-		BLFacade appFacadeInterface = new BLFacadeFactory().createBLFacade(c);
-
-		if (appFacadeInterface != null) {
-			MainGUI.setBussinessLogic(appFacadeInterface);
-			MainGUI a = new MainGUI();
-			a.setVisible(true);
-		}
-
-		ExtendedIterator<String> i = appFacadeInterface.getDepartCitiesIterator();
-		String c1;
-
-		System.out.println("_____________________");
-		System.out.println("FROM\tLAST\tTO\tFIRST");
-		i.goLast(); // Go to last element
-
-		while (i.hasPrevious()) {
-			c1 = i.previous();
-			System.out.println(c1); //
-		}
-
-		System.out.println();
-		System.out.println("_____________________");
-		System.out.println("FROM\tFIRST\tTO\tLAST");
-
-		i.goFirst(); // Go to first element
-
-		while (i.hasNext()) {
-			c1 = i.next();
-			System.out.println(c1); // También aquí imprimimos la ciudad (c1), no el objeto c
-
-		}
-	}
+			boolean isLocal = true;
+			//BLFacadeFactory blFacade = new BLFacadeFactory();
+			//Aquí habría que conseguir que el método createBLFacade de la Factory entienda que es local.
+			
+			c.setBusinessLogicLocal(isLocal); //He tenido que hacer que ConfigXML sea public y generar el setter.
+			BLFacade blf2 = new BLFacadeFactory().createBLFacade(c);
+			Driver d = blf2.getDriver("Urtzi");
+			//DriverAdapter da = new DriverAdapter(blf2,d);
+			 //PARA HACER ALGO, HAY QUE CONSEGUIR QUE BLFacade Y BLFacadeFactory ESTÉN RELACIONADOS.
+			DriverTable dt = new DriverTable(blf2,d);
+			dt.setVisible(true);
+		
+	
 
 //		try {
 //
@@ -99,4 +113,5 @@ public class ApplicationLauncher {
 //		}
 	// a.pack();
 
+}
 }
