@@ -58,16 +58,11 @@ public class ApplicationLauncher {
 //
 //		}
 
-			boolean isLocal = true;
-			//BLFacadeFactory blFacade = new BLFacadeFactory();
-			//Aquí habría que conseguir que el método createBLFacade de la Factory entienda que es local.
-			
+			boolean isLocal = true;			
 			c.setBusinessLogicLocal(isLocal); //He tenido que hacer que ConfigXML sea public y generar el setter.
-			BLFacade blf2 = new BLFacadeFactory().createBLFacade(c);
-			Driver d = blf2.getDriver("Urtzi");
-			//DriverModelAdapter da = new DriverModelAdapter(blf2,d);
-			 //PARA HACER ALGO, HAY QUE CONSEGUIR QUE BLFacade Y BLFacadeFactory ESTÉN RELACIONADOS.
-			DriverTable dt = new DriverTable(blf2,d);
+			BLFacade blf = new BLFacadeFactory().createBLFacade(c);
+			Driver d = blf.getDriver("Urtzi");
+			DriverTable dt = new DriverTable(blf, d);
 			dt.setVisible(true);
 		
 	
