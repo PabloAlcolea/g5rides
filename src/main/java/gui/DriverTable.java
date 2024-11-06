@@ -23,7 +23,7 @@ public class DriverTable extends JFrame{
 		this.blf = blf;
 		this.setBounds(100, 100, 700, 200);
 		this.driver = driver;
-		DriverAdapter adapt = new DriverAdapter(blf,driver);
+		DriverModelAdapter adapt = new DriverModelAdapter(blf,driver);
 		tabla = new JTable(adapt);
 		tabla.setPreferredScrollableViewportSize(new Dimension(500, 70));
 		JScrollPane scrollPane = new JScrollPane(tabla);

@@ -65,7 +65,7 @@ public class ApplicationLauncher {
 			c.setBusinessLogicLocal(isLocal); //He tenido que hacer que ConfigXML sea public y generar el setter.
 			BLFacade blf2 = new BLFacadeFactory().createBLFacade(c);
 			Driver d = blf2.getDriver("Urtzi");
-			//DriverAdapter da = new DriverAdapter(blf2,d);
+			//DriverModelAdapter da = new DriverModelAdapter(blf2,d);
 			 //PARA HACER ALGO, HAY QUE CONSEGUIR QUE BLFacade Y BLFacadeFactory ESTÉN RELACIONADOS.
 			DriverTable dt = new DriverTable(blf2,d);
 			dt.setVisible(true);

@@ -10,14 +10,13 @@ import businessLogic.BLFacadeImplementation;
 import domain.Driver;
 import domain.Ride;
 
-public class DriverAdapter extends AbstractTableModel{
+public class DriverModelAdapter extends AbstractTableModel{
 	
 	private BLFacade blf;
 	private Driver d;
-
 	private List<Ride> datalist;
-
-	public DriverAdapter(BLFacade blf,Driver d) {
+	
+	public DriverModelAdapter(BLFacade blf,Driver d) {
 		this.blf = blf;
 		this.d = d;
 		datalist = blf.getRidesByDriver(d.getUsername());
